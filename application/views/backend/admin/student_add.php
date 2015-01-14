@@ -109,7 +109,8 @@
         							</select>							
         						</div>
         					</div>
-        					<div class="col-md-4">
+                                            
+        					<div class="col-sm-4 col-xs-4 col-lg-4 col-md-offset-2">
         						<div class="form-group">
         							<label>Cidade: </label>
         							<select class="form-control">
@@ -121,6 +122,7 @@
         							</select>							
         						</div>
         					</div>
+                                                
                             <div class="col-md-offset-4 col-md-4">
                                 <div class="form-group">
                                     <button type="submit" class="col-md-offset-4 btn btn-info"><?php echo get_phrase('add_student');?></button>
