@@ -10,7 +10,6 @@
             <div class="panel-body bg-info">
                 <?php echo form_open('admin/student/create/', array('class' => 'validate', 'enctype' => 'multipart/form-data')); ?>  
                 <div class="col-md-2" style="margin-top: 12px">				
-                                                <!-- <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxkZWZzLz48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ1LjUiIHk9IjcwIiBzdHlsZT0iZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQ7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MTQweDE0MDwvdGV4dD48L2c+PC9zdmc+" alt="..." class="img-thumbnail">-->
                     <div class="fileinput fileinput-new" data-provides="fileinput"><input type="hidden">
                         <div class="fileinput-new thumbnail" data-trigger="fileinput">
                             <img src="http://placehold.it/200x200" alt="...">
@@ -20,7 +19,7 @@
                             <span class="col-md-12 btn btn-info btn-file">
                                 <span class="fileinput-new">Select image</span>
                                 <span class="fileinput-exists">Change</span>
-                                <input type="file" name="userfile" accept="image/*">
+                                <input type="file" name="foto" accept="image/*">
                             </span>
                             <a href="#" class="col-md-12 btn btn-orange fileinput-exists" style="margin-top: 3px"
                                data-dismiss="fileinput">Remove</a>
@@ -33,21 +32,21 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label><?php echo get_phrase('name'); ?></label>
-                                <input type="text" class="form-control" name="name" data-validate="required" placeholder="Nome Completo" 
+                                <input type="text" class="form-control" name="al_nome" data-validate="required" placeholder="Nome Completo" 
                                        data-message-required="<?php echo get_phrase('value_required'); ?>" value="" autofocus="autofocus" />
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Nome da MÃ£e</label>
-                                <input type="text" class="form-control" name="name" data-validate="required" placeholder="Nome Completo" 
+                                <label>Nome da Mãe</label>
+                                <input type="text" class="form-control" name="al_nome_mae" data-validate="required" placeholder="Nome da mãe" 
                                        data-message-required="<?php echo get_phrase('value_required'); ?>" value="" autofocus="autofocus" />
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label><?php echo get_phrase('class'); ?></label>
-                                <select name="class_id" class="form-control" data-validate="required" 
+                                <select name="al_codigo_classe" class="form-control" data-validate="required" 
                                         data-message-required="<?php echo get_phrase('value_required'); ?>">
                                     <option value=""><?php echo get_phrase('select'); ?></option>
                                     <?php
@@ -67,21 +66,21 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label><?php echo get_phrase('birthday'); ?></label>
-                                <input type="text" class="form-control datepicker" name="birthday" placeholder="dd/mm/aaaa" 
+                                <input type="text" class="form-control datepicker" name="al_data_nasc" placeholder="dd/mm/aaaa" 
                                        value="" data-start-view="2">
                             </div>
                         </div>	
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label><?php echo get_phrase('email'); ?></label>
-                                <input type="text" class="form-control" name="email" value="" placeholder="e-mail"/>
+                                <input type="text" class="form-control" name="al_email" value="" placeholder="e-mail"/>
                             </div>
                         </div>
 
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label><?php echo get_phrase('gender'); ?></label>
-                                <select name="sex" class="form-control">
+                                <select name="al_sexo" class="form-control">
                                     <option value=""><?php echo get_phrase('select'); ?></option>
                                     <option value="male"><?php echo get_phrase('male'); ?></option>
                                     <option value="female"><?php echo get_phrase('female'); ?></option>
@@ -91,31 +90,31 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>CEP: </label>
-                                <input class="form-control" type="text" placeholder="" />
+                                <input class="form-control" name="al_cep" type="text" placeholder="" />
                             </div>
                         </div>
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label><?php echo get_phrase('address'); ?></label>
-                                <input type="text" class="form-control" name="address" value="" />
+                                <input type="text" class="form-control" name="al_logradouro" value="" />
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Numero: </label>
-                                <input class="form-control" type="text" placeholder="" />
+                                <input class="form-control" type="text" name="al_numero" placeholder="" />
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Complemento: </label>
-                                <input class="form-control" type="text" placeholder="" />
+                                <input class="form-control" name="al_complemento" type="text" placeholder="" />
                             </div>
                         </div>
                         <div class="col-xs-2">
                             <div class="form-group">
                                 <label>Estado: </label>
-                                <select class="form-control">
+                                <select class="form-control" name="al_uf">
                                     <option value="1">AM</option>
                                     <option value="1">AP</option>
                                     <option value="1">BH</option>
@@ -127,7 +126,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Cidade: </label>
-                                <select class="form-control">
+                                <select class="form-control" name="al_cidade">
                                     <option value="1">Fortaleza</option>
                                     <option value="1">Belem</option>
                                     <option value="1">Caucaia</option>
@@ -139,25 +138,25 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Bairro: </label>
-                                <input class="form-control" type="text" placeholder="" />
+                                <input class="form-control" name= "al_bairro" type="text" placeholder="" />
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label><?php echo get_phrase('phone'); ?></label>
-                                <input type="text" class="form-control" name="phone" value="" placeholder="fone"/>
+                                <input type="text" class="form-control" name="al_fone" value="" placeholder="fone"/>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Celular: </label>
-                                <input class="form-control" type="text" placeholder="" />
+                                <input class="form-control" name="al_celular" type="text" placeholder="" />
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Fator RH: </label>
-                                <select class="form-control">
+                                <select class="form-control" name="al_fator_rh">
                                     <option value="1"></option>
                                     <option value="1">A -</option>
                                     <option value="1">B -</option>
@@ -174,19 +173,19 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>RG: </label>
-                                <input class="form-control" type="text" placeholder="" />
+                                <input class="form-control" type="text" name="al_rg" placeholder="" />
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>Emissor: </label>
-                                <input class="form-control" type="text" placeholder="" />
+                                <input class="form-control" type="text" name="al_org_emissor" placeholder="" />
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>CPF: </label>
-                                <input class="form-control" type="text" placeholder="" />
+                                <input class="form-control" name="al_cpf" type="text" placeholder="" />
                             </div>
                         </div>
                       

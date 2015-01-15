@@ -89,33 +89,66 @@ class Admin extends CI_Controller
         if ($this->session->userdata('admin_login') != 1)
             redirect('login', 'refresh');
         if ($param1 == 'create') {
-            $data['name']        = $this->input->post('name');
-            $data['birthday']    = $this->input->post('birthday');
-            $data['sex']         = $this->input->post('sex');
-            $data['address']     = $this->input->post('address');
-            $data['phone']       = $this->input->post('phone');
-            $data['email']       = $this->input->post('email');
-            $data['password']    = $this->input->post('password');
-            $data['class_id']    = $this->input->post('class_id');
-            $data['roll']        = $this->input->post('roll');
-            $this->db->insert('student', $data);
+            $data['al_bairro']          = $this->input->post('al_bairro');
+            $data['al_celular']         = $this->input->post('al_celular');
+            $data['al_cep']             = $this->input->post('al_cep');
+            $data['al_cidade']          = $this->input->post('al_cidade');
+            $data['al_cod_usuario']     = $this->input->post('al_cod_usuario');
+            $data['al_complemento']     = $this->input->post('al_complemento');
+            $data['al_cpf']             = $this->input->post('al_cpf');
+            $data['al_data_alteracao']  = $this->input->post('al_data_alteracao');
+            $data['al_data_nasc']       = $this->input->post('al_data_nasc');
+            $data['al_email']           = $this->input->post('al_email');
+            $data['al_fator_rh']        = $this->input->post('al_fator_rh');
+            $data['al_fone']            = $this->input->post('al_fone');
+            $data['al_foto']            = $this->input->post('al_foto');
+            $data['al_logradouro']      = $this->input->post('al_logradouro');
+            $data['al_nome']            = $this->input->post('al_nome');
+            $data['al_nome_mae']        = $this->input->post('al_nome_mae');
+            $data['al_numero']          = $this->input->post('al_numero');
+            $data['al_org_emissor']     = $this->input->post('al_org_emissor');
+            $data['al_rg']              = $this->input->post('al_rg');
+            $data['al_sexo']            = $this->input->post('al_sexo');
+            $data['al_status']          = $this->input->post('al_status');
+            $data['al_uf']              = $this->input->post('al_uf');
+            $data['al_codigo_classe']   = $this->input->post('al_codigo_classe');
+            
+            
+            //$data['class_id']    = $this->input->post('class_id');
+            //$data['roll']        = $this->input->post('roll');
+            $this->db->insert('aluno', $data);
             $student_id = mysql_insert_id();
-            move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/student_image/' . $student_id . '.jpg');
-            $this->email_model->account_opening_email('student', $data['email']); //SEND EMAIL ACCOUNT OPENING EMAIL
+            move_uploaded_file($_FILES['foto']['tmp_name'], 'uploads/student_image/' . $student_id . '.jpg');
+            //$this->email_model->account_opening_email('student', $data['email']); //SEND EMAIL ACCOUNT OPENING EMAIL
             redirect(base_url() . 'index.php?admin/student_add/' . $data['class_id'], 'refresh');
         }
         if ($param2 == 'do_update') {
-            $data['name']        = $this->input->post('name');
-            $data['birthday']    = $this->input->post('birthday');
-            $data['sex']         = $this->input->post('sex');
-            $data['address']     = $this->input->post('address');
-            $data['phone']       = $this->input->post('phone');
-            $data['email']       = $this->input->post('email');
-            $data['class_id']    = $this->input->post('class_id');
-            $data['roll']        = $this->input->post('roll');
+            $data['al_bairro']          = $this->input->post('al_bairro');
+            $data['al_celular']         = $this->input->post('al_celular');
+            $data['al_cep']             = $this->input->post('al_cep');
+            $data['al_cidade']          = $this->input->post('al_cidade');
+            $data['al_cod_usuario']     = $this->input->post('al_cod_usuario');
+            $data['al_complemento']     = $this->input->post('al_complemento');
+            $data['al_cpf']             = $this->input->post('al_cpf');
+            $data['al_data_alteracao']  = $this->input->post('al_data_alteracao');
+            $data['al_data_nasc']       = $this->input->post('al_data_nasc');
+            $data['al_email']           = $this->input->post('al_email');
+            $data['al_fator_rh']        = $this->input->post('al_fator_rh');
+            $data['al_fone']            = $this->input->post('al_fone');
+            $data['al_foto']            = $this->input->post('al_foto');
+            $data['al_logradouro']      = $this->input->post('al_logradouro');
+            $data['al_nome']            = $this->input->post('al_nome');
+            $data['al_nome_mae']        = $this->input->post('al_nome_mae');
+            $data['al_numero']          = $this->input->post('al_numero');
+            $data['al_org_emissor']     = $this->input->post('al_org_emissor');
+            $data['al_rg']              = $this->input->post('al_rg');
+            $data['al_sexo']            = $this->input->post('al_sexo');
+            $data['al_status']          = $this->input->post('al_status');
+            $data['al_uf']              = $this->input->post('al_uf');
+            $data['al_codigo_classe']   = $this->input->post('al_codigo_classe');
             
-            $this->db->where('student_id', $param3);
-            $this->db->update('student', $data);
+            $this->db->where('al_id', $param3);
+            $this->db->update('aluno', $data);
             move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/student_image/' . $param3 . '.jpg');
             $this->crud_model->clear_cache();
             
@@ -123,8 +156,8 @@ class Admin extends CI_Controller
         } 
 		
         if ($param2 == 'delete') {
-            $this->db->where('student_id', $param3);
-            $this->db->delete('student');
+            $this->db->where('al_id', $param3);
+            $this->db->delete('aluno');
             redirect(base_url() . 'index.php?admin/student_information/' . $param1, 'refresh');
         }
     }
