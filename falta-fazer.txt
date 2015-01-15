@@ -1,0 +1,3 @@
+validações de campos.
+tratamento de execeções.
+foto do aluno que não envia.
