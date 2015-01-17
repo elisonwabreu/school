@@ -47,3 +47,6 @@ Temporary Items
 .settings/org.eclipse.wst.common.project.facet.core.xml
 .settings/org.eclipse.wst.common.project.facet.core.xml
 nbproject/private/private.xml
+.settings/.jsdtscope
+.settings/org.eclipse.wst.jsdt.ui.superType.container
+.settings/org.eclipse.wst.jsdt.ui.superType.name

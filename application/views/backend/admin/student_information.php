@@ -80,8 +80,7 @@
 <script type="text/javascript">
 
 	jQuery(document).ready(function($)
-	{
-		
+	{		               
 
 		var datatable = $("#table_export").dataTable({
 			"sPaginationType": "bootstrap",

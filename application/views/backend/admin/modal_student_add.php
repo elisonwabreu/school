@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div class="panel-body bg-info">
-                <?php echo form_open('admin/student/create/', array('class' => 'validate', 'enctype' => 'multipart/form-data')); ?>  
+                <?php echo form_open('admin/student/create/', array('name' => 'formulario_add', 'class' => 'validate', 'enctype' => 'multipart/form-data')); ?>  
                 <div class="col-md-2" style="margin-top: 12px">				
                     <div class="fileinput fileinput-new" data-provides="fileinput"><input type="hidden">
                         <div class="fileinput-new thumbnail" data-trigger="fileinput">
@@ -38,8 +38,8 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Nome da Mãe</label>
-                                <input type="text" class="form-control" name="al_nome_mae" data-validate="required" placeholder="Nome da mãe" 
+                                <label>Nome da Mï¿½e</label>
+                                <input type="text" class="form-control" name="al_nome_mae" data-validate="required" placeholder="Nome da mï¿½e" 
                                        data-message-required="<?php echo get_phrase('value_required'); ?>" value="" autofocus="autofocus" />
                             </div>
                         </div>
@@ -115,11 +115,17 @@
                             <div class="form-group">
                                 <label>Estado: </label>
                                 <select class="form-control" name="al_uf">
-                                    <option value="1">AM</option>
-                                    <option value="1">AP</option>
-                                    <option value="1">BH</option>
-                                    <option value="1">CE</option>								
-                                </select>							
+                                    <option value="">--Estados--</option>
+                                    <?php $estados = $this->db->get('estado')->result_array();
+    									foreach($estados as $estado): ?>
+                                    		<option value="<?php echo $estado['est_sigla'];?>"
+                                            	<?php if($row['al_uf'] == $estado['est_sigla'])echo 'selected';?>>
+												<?php echo $estado['est_nome'];?>
+                                            </option>
+                                                <?php
+										endforeach;
+    								?>
+                               </select>								
                             </div>
                         </div>
 

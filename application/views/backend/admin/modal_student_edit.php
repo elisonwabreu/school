@@ -1,6 +1,26 @@
 <?php 
 $edit_data		=	$this->db->get_where('aluno' , array('al_id' => $param2) )->result_array();
+$codigo = $row[al_id];
 foreach ( $edit_data as $row):
+    
+    $telefone = $row[al_fone];
+    
+    $novo = '(';
+    if(strlen($telefone) == 8){
+        $telefone = '00'.$telefone;
+    }
+        
+    for($i = 0; $i < strlen($telefone); $i++ ){
+        $novo .= $telefone[$i];
+        if($i == 1){
+           $novo .= ')';               
+        }
+        if($i == 5){
+            $novo .= '-';
+        }
+
+    }
+    
 ?>
 <div class="row">
 	<div class="col-md-12">
@@ -11,25 +31,25 @@ foreach ( $edit_data as $row):
 					<?php echo get_phrase('edit_student');?>
             	</div>
             </div>
-			<div class="panel-body bg-info">
+            <div class="panel-body bg-info">
 				
-                <?php echo form_open('admin/student/'.$row['al_id'].'/do_update/'.$row['al_id'] , array('class' => 'validate', 'enctype' => 'multipart/form-data'));?>
-                
+                <?php echo form_open('admin/student/'.$row['al_id'].'/do_update/'.$row['al_id'] , array('name'=>'formulario', 'class' => 'validate', 'enctype' => 'multipart/form-data'));?>
+                <input type="hidden" id="txtCodigo" value="<?php echo $row[al_id]; ?>" />
                     <div class="col-md-2" style="margin-top: 12px">				
                         <div class="fileinput fileinput-new" data-provides="fileinput">
-							<div class="fileinput-new thumbnail" style="width: 100px; height: 100px;" data-trigger="fileinput">
-								<img src="<?php echo $this->crud_model->get_image_url('aluno' , $row['al_id']);?>" alt="...">
-							</div>
-							<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px"></div>
-							<div>
-								<span class="btn btn-white btn-file">
-									<span class="fileinput-new">Select image</span>
-									<span class="fileinput-exists">Change</span>
-									<input type="file" name="userfile" accept="image/*">
-								</span>
-								<a href="#" class="btn btn-orange fileinput-exists" data-dismiss="fileinput">Remove</a>
-							</div>
-						</div>
+                                <div class="fileinput-new thumbnail" style="width: 100px; height: 100px;" data-trigger="fileinput">
+                                        <img src="<?php echo $this->crud_model->get_image_url('aluno' , $row['al_id']);?>" alt="...">
+                                </div>
+                                <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px"></div>
+                                <div>
+                                        <span class="btn btn-white btn-file">
+                                                <span class="fileinput-new">Select image</span>
+                                                <span class="fileinput-exists">Change</span>
+                                                <input type="file" name="userfile" accept="image/*">
+                                        </span>
+                                        <a href="#" class="btn btn-orange fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                </div>
+                        </div>
                     </div>
                     
                     <div class="col-md-10">
@@ -46,8 +66,8 @@ foreach ( $edit_data as $row):
             				
             				<div class="col-md-12">
                                 <div class="form-group">
-                                    <label>Nome da Mãe</label>
-                                    <input type="text" class="form-control" name="al_nome_mae" data-validate="required" placeholder="Nome da mãe" 
+                                    <label>Nome da Mï¿½e</label>
+                                    <input type="text" class="form-control" name="al_nome_mae" data-validate="required" placeholder="Nome da mï¿½e" 
                                            data-message-required="<?php echo get_phrase('value_required'); ?>" 
                                             value="<?php echo $row['al_nome_mae'];?>" />
                                 </div>
@@ -72,8 +92,6 @@ foreach ( $edit_data as $row):
                                 </div>
                             </div>	
                             
-                            
-                            
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label><?php echo get_phrase('birthday'); ?></label>
@@ -95,8 +113,8 @@ foreach ( $edit_data as $row):
                                     <label><?php echo get_phrase('gender'); ?></label>
                                     <select name="al_sexo" class="form-control">
                                         <option value=""><?php echo get_phrase('select');?></option>
-                                      <option value="male" <?php if($row['al_sexo'] == 'male')echo 'selected';?>><?php echo get_phrase('male');?></option>
-                                      <option value="female"<?php if($row['al_sexo'] == 'female')echo 'selected';?>><?php echo get_phrase('female');?></option>
+                                      <option value="m" <?php if($row['al_sexo'] == 'm')echo 'selected';?>><?php echo get_phrase('male');?></option>
+                                      <option value="f"<?php if($row['al_sexo'] == 'f')echo 'selected';?>><?php echo get_phrase('female');?></option>
                                     </select>							
                                 </div>
                             </div>	
@@ -139,10 +157,16 @@ foreach ( $edit_data as $row):
                                 <div class="form-group">
                                     <label>Estado: </label>
                                     <select class="form-control" name="al_uf">
-                                        <option value="1">AM</option>
-                                        <option value="1">AP</option>
-                                        <option value="1">BH</option>
-                                        <option value="1">CE</option>								
+                                        <option value="">--Estados--</option>
+                                        <?php $estados = $this->db->get('estado')->result_array();
+        									foreach($estados as $estado): ?>
+                                        		<option value="<?php echo $estado['est_sigla'];?>"
+                                                	<?php if($row['al_uf'] == $estado['est_sigla'])echo 'selected';?>>
+    														<?php echo $estado['est_nome'];?>
+                                                </option>
+                                                    <?php
+    										endforeach;
+        								  ?>
                                     </select>							
                                 </div>
                             </div>
@@ -172,8 +196,8 @@ foreach ( $edit_data as $row):
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label><?php echo get_phrase('phone'); ?></label>
-                                    <input type="text" class="form-control" name="al_fone" 
-                                    value="<?php echo $row['al_fone'] ?>" placeholder="fone"/>
+                                    <input type="text" class="form-control" name="al_fone" onkeypress="mascara(this)"                                           
+                                    value="<?php echo $novo; ?>" placeholder="(99)9999-9999"/>
                                 </div>
                             </div>
                             
@@ -237,8 +261,11 @@ foreach ( $edit_data as $row):
                                 <button type="submit" class="col-md-offset-4 btn btn-info"><?php echo get_phrase('add_student'); ?></button>
                             </div>
                         </div>
-                        <?php echo form_close(); ?>
                    </div>    
+                        <?php echo form_close(); ?>
+<!--                    <div class="row">
+                        <div class="alert alert-danger col-md-offset-1 col-md-10" role="alert">erro de cpf</div>
+                   </div>    -->
             </div>
         </div>
     </div>
@@ -247,3 +274,56 @@ foreach ( $edit_data as $row):
 <?php
 endforeach;
 ?>
+
+<script type="text/javascript">
+    $(function(){
+        formulario = $('form[name="formulario"]');
+        codigo = $('input[type="hidden"]').val();
+        //url         = "<?php echo base_url(); ?>" + 'index.php?admin/student/'+codigo+'/do_update/' + codigo;
+        url         = "<?php echo base_url(); ?>" + 'index.php?admin/teste';
+    
+        formulario.submit(function(){
+
+            function sucesso(retorno){
+                var result = JSON.parse( retorno );
+                
+                if(result.msn === 'erro'){
+                    alert("CFP InvÃ¡lido");
+                }
+                
+                
+                    
+                
+                //$('#modal_ajax').modal('hide');   
+            }  
+            
+            function carregando(data){
+                
+                
+            }
+            
+            function complete(data){
+               // $('#modal_ajax').modal('hide');
+                
+            }
+            
+            function erro(data){
+                alert("deu merda");
+                $('#modal_ajax').modal('hide');
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: $(this).serialize(),
+                beforeSend: carregando,
+                error: erro,
+                success: sucesso,
+                complete: complete
+            });
+
+            return false;
+        }); 
+    });
+
+</script>

@@ -43,6 +43,5 @@
 	</div>
     <?php include 'modal.php';?>
     <?php include 'includes_bottom.php';?>
-    
 </body>
 </html>

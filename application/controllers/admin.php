@@ -18,6 +18,7 @@ class Admin extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->database();
+                $this->load->helper('funcoes');
 		
        /*cache control*/
 		$this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
@@ -63,11 +64,11 @@ class Admin extends CI_Controller
 	function student_information($class_id = '')
 	{
 		if ($this->session->userdata('admin_login') != 1)
-            redirect('login', 'refresh');
+                    redirect('login', 'refresh');
 			
 		$page_data['page_name']  	= 'student_information';
 		$page_data['page_title'] 	= get_phrase('student_information'). " - ".get_phrase('class')." : ".
-											$this->crud_model->get_class_name($class_id);
+		$this->crud_model->get_class_name($class_id);
 		$page_data['class_id'] 	= $class_id;
 		$this->load->view('backend/index', $page_data);
 	}
@@ -84,6 +85,16 @@ class Admin extends CI_Controller
 		$this->load->view('backend/index', $page_data);
 	}
 	
+	function teste(){
+            if(!validaCPF($this->input->post('al_cpf'))){
+                echo json_encode( array( 'msn' => 'erro') );;    
+                return;
+            }
+           echo json_encode( array( 'dados' => $this->input->post()) );
+            
+	    //print_r($this->input->post());            
+	}
+	
     function student($param1 = '', $param2 = '', $param3 = '')
     {
         if ($this->session->userdata('admin_login') != 1)
@@ -95,6 +106,11 @@ class Admin extends CI_Controller
             $data['al_cidade']          = $this->input->post('al_cidade');
             $data['al_cod_usuario']     = $this->input->post('al_cod_usuario');
             $data['al_complemento']     = $this->input->post('al_complemento');
+            
+           /*if(!validaCPF($this->input->post('al_cpf'))){
+                echo '1';
+            }*/          
+            
             $data['al_cpf']             = $this->input->post('al_cpf');
             $data['al_data_alteracao']  = $this->input->post('al_data_alteracao');
             $data['al_data_nasc']       = $this->input->post('al_data_nasc');
@@ -120,7 +136,8 @@ class Admin extends CI_Controller
             $student_id = mysql_insert_id();
             move_uploaded_file($_FILES['foto']['tmp_name'], 'uploads/student_image/' . $student_id . '.jpg');
             //$this->email_model->account_opening_email('student', $data['email']); //SEND EMAIL ACCOUNT OPENING EMAIL
-            redirect(base_url() . 'index.php?admin/student_add/' . $data['class_id'], 'refresh');
+            echo json_encode( array( 'dados' => $this->input->post()) );
+            //redirect(base_url() . 'index.php?admin/student_add/' . $data['class_id'], 'refresh');
         }
         if ($param2 == 'do_update') {
             $data['al_bairro']          = $this->input->post('al_bairro');
@@ -134,7 +151,10 @@ class Admin extends CI_Controller
             $data['al_data_nasc']       = $this->input->post('al_data_nasc');
             $data['al_email']           = $this->input->post('al_email');
             $data['al_fator_rh']        = $this->input->post('al_fator_rh');
-            $data['al_fone']            = $this->input->post('al_fone');
+            
+            $fone = preg_replace('/[^0-9]/', '', $this->input->post('al_fone'));
+            
+            $data['al_fone']            = $fone;
             $data['al_foto']            = $this->input->post('al_foto');
             $data['al_logradouro']      = $this->input->post('al_logradouro');
             $data['al_nome']            = $this->input->post('al_nome');
@@ -151,8 +171,8 @@ class Admin extends CI_Controller
             $this->db->update('aluno', $data);
             move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/student_image/' . $param3 . '.jpg');
             $this->crud_model->clear_cache();
-            
-            redirect(base_url() . 'index.php?admin/student_information/' . $param1, 'refresh');
+            echo json_encode( array( 'dados' => $this->input->post()) );
+            //redirect(base_url() . 'index.php?admin/student_information/' . $param1, 'refresh');
         } 
 		
         if ($param2 == 'delete') {
