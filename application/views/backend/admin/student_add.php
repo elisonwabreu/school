@@ -17,7 +17,7 @@
                         <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 6px;"></div>
                         <div>
                             <span class="col-md-12 btn btn-info btn-file">
-                                <span class="fileinput-new">Select image</span>
+                                <span class="fileinput-new">Selecione Imagem</span>
                                 <span class="fileinput-exists">Change</span>
                                 <input type="file" name="foto" accept="image/*">
                             </span>
@@ -27,94 +27,101 @@
                     </div>
                 </div>	
                 <div class="col-md-10">
-                    <div class="row">
-
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label><?php echo get_phrase('name'); ?></label>
-                                <input type="text" class="form-control" name="al_nome" data-validate="required" placeholder="Nome Completo" 
-                                       data-message-required="<?php echo get_phrase('value_required'); ?>" value="" autofocus="autofocus" />
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label><?php echo get_phrase('name'); ?></label>
+                                        <input type="text" class="form-control" name="al_nome" data-validate="required" placeholder="Nome Completo" 
+                                               data-message-required="<?php echo get_phrase('value_required'); ?>" value="" autofocus="autofocus" />
+                                    </div>
+                                </div>
+                            </div>    
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label><?php echo get_phrase('mae'); ?></label>
+                                    <input type="text" class="form-control" name="al_nome_mae" data-validate="required" placeholder="Nome da mãe" 
+                                           data-message-required="<?php echo get_phrase('value_required'); ?>" value="" autofocus="autofocus" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Nome da M�e</label>
-                                <input type="text" class="form-control" name="al_nome_mae" data-validate="required" placeholder="Nome da m�e" 
-                                       data-message-required="<?php echo get_phrase('value_required'); ?>" value="" autofocus="autofocus" />
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label><?php echo get_phrase('class'); ?></label>
-                                <select name="al_codigo_classe" class="form-control" data-validate="required" 
-                                        data-message-required="<?php echo get_phrase('value_required'); ?>">
-                                    <option value=""><?php echo get_phrase('select'); ?></option>
-                                    <?php
-                                    $classes = $this->db->get('class')->result_array();
-                                    foreach ($classes as $row):
-                                        ?>
+                         </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label><?php echo get_phrase('class'); ?></label>
+                                    <select name="al_codigo_classe" class="form-control" data-validate="required" 
+                                            data-message-required="<?php echo get_phrase('value_required'); ?>">
+                                        <option value=""><?php echo get_phrase('select'); ?></option>
+                                        <?php $classes = $this->db->get('class')->result_array();
+                                        foreach ($classes as $row): ?>
                                         <option value="<?php echo $row['class_id']; ?>">
-                                        <?php echo $row['name']; ?>
-                                        </option>
-                                        <?php
-                                    endforeach;
-                                    ?>
-                                </select>   							
+                                            <?php echo $row['name']; ?>
+                                            </option>
+                                            <?php
+                                        endforeach;
+                                        ?>
+                                    </select>   							
+                                </div>
+                            </div>	
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label><?php echo get_phrase('birthday'); ?></label>
+                                    <input type="text" class="form-control datepicker" name="al_data_nasc" placeholder="dd/mm/aaaa" 
+                                           data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>" value="" data-start-view="2">
+                                </div>
                             </div>
-                        </div>	
-                        	
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label><?php echo get_phrase('birthday'); ?></label>
-                                <input type="text" class="form-control datepicker" name="al_data_nasc" placeholder="dd/mm/aaaa" 
-                                       value="" data-start-view="2">
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><?php echo get_phrase('email'); ?></label>
+                                    <input type="text" class="form-control" name="al_email" value="" placeholder="e-mail"/>
+                                </div>
                             </div>
-                        </div>	
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label><?php echo get_phrase('email'); ?></label>
-                                <input type="text" class="form-control" name="al_email" value="" placeholder="e-mail"/>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label><?php echo get_phrase('gender'); ?></label>
+                                    <select name="al_sexo" class="form-control"  data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>">
+                                        <option value=""><?php echo get_phrase('select'); ?></option>
+                                        <option value="male"><?php echo get_phrase('male'); ?></option>
+                                        <option value="female"><?php echo get_phrase('female'); ?></option>
+                                    </select>							
+                                </div>
                             </div>
                         </div>
-
+                        <div class="row">
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label><?php echo get_phrase('gender'); ?></label>
-                                <select name="al_sexo" class="form-control">
-                                    <option value=""><?php echo get_phrase('select'); ?></option>
-                                    <option value="male"><?php echo get_phrase('male'); ?></option>
-                                    <option value="female"><?php echo get_phrase('female'); ?></option>
-                                </select>							
-                            </div>
-                        </div>	
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label>CEP: </label>
-                                <input class="form-control" name="al_cep" type="text" placeholder="" />
+                                <label><?php echo get_phrase('cep'); ?></label>
+                                <input class="form-control" name="al_cep" type="text" placeholder=""  data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>"/>
                             </div>
                         </div>
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label><?php echo get_phrase('address'); ?></label>
-                                <input type="text" class="form-control" name="al_logradouro" value="" />
+                                <input type="text" class="form-control" name="al_logradouro" value="" data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>"/>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Numero: </label>
-                                <input class="form-control" type="text" name="al_numero" placeholder="" />
+                                <label><?php echo get_phrase('numero'); ?></label>
+                                <input class="form-control" type="text" name="al_numero" placeholder="" data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>" />
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>Complemento: </label>
+                                <label><?php echo get_phrase('complemento'); ?></label>
                                 <input class="form-control" name="al_complemento" type="text" placeholder="" />
                             </div>
                         </div>
+                        </div>
+                        <div class="row">
                         <div class="col-xs-2">
                             <div class="form-group">
-                                <label>Estado: </label>
-                                <select class="form-control" name="al_uf">
+                                <label><?php echo get_phrase('estado'); ?></label>
+                                <select class="form-control" name="al_uf"  data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>">
                                     <option value="">--Estados--</option>
                                     <?php $estados = $this->db->get('estado')->result_array();
     					foreach($estados as $estado): ?>
@@ -130,8 +137,9 @@
 
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Cidade: </label>
-                                <select class="form-control" name="al_cidade">
+                                <label><?php echo get_phrase('cidade'); ?></label>
+                                <select class="form-control" name="al_cidade" data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>">
+                                    <option value=""><?php echo get_phrase('select'); ?></option>
                                     <option value="1">Fortaleza</option>
                                     <option value="1">Belem</option>
                                     <option value="1">Caucaia</option>
@@ -142,27 +150,29 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Bairro: </label>
-                                <input class="form-control" name= "al_bairro" type="text" placeholder="" />
+                                <label><?php echo get_phrase('bairro'); ?></label>
+                                <input class="form-control" id="campoTelefone" name= "al_bairro" type="text" placeholder="" data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>" />
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label><?php echo get_phrase('phone'); ?></label>
-                                <input type="text" class="form-control" name="al_fone" value="" placeholder="fone"/>
+                                <input type="text" class="form-control" name="al_fone" value="" placeholder="Fone"  data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>"/>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Celular: </label>
+                                <label><?php echo get_phrase('celular'); ?></label>
                                 <input class="form-control" name="al_celular" type="text" placeholder="" />
                             </div>
                         </div>
+                        </div>
+                        <div class="row">
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Fator RH: </label>
-                                <select class="form-control" name="al_fator_rh">
-                                    <option value="1"></option>
+                                <label><?php echo get_phrase('blood_group'); ?></label>
+                                <select class="form-control" name="al_fator_rh"  data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>">
+                                    <option value=""><?php echo get_phrase('select'); ?></option>
                                     <option value="1">A -</option>
                                     <option value="1">B -</option>
                                     <option value="1">AB -</option>
@@ -177,23 +187,23 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>RG: </label>
-                                <input class="form-control" type="text" name="al_rg" placeholder="" />
+                                <label><?php echo get_phrase('rg'); ?></label>
+                                <input class="form-control" type="text" name="al_rg" placeholder=""  data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>"/>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Emissor: </label>
-                                <input class="form-control" type="text" name="al_org_emissor" placeholder="" />
+                                <label><?php echo get_phrase('emissor'); ?></label>
+                                <input class="form-control" type="text" name="al_org_emissor" placeholder=""  data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>"/>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>CPF: </label>
-                                <input class="form-control" name="al_cpf" type="text" placeholder="" />
+                                <label><?php echo get_phrase('cpf'); ?></label>
+                                <input class="form-control" name="al_cpf" type="text" placeholder="" data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>"/>
                             </div>
                         </div>
-                      
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -250,6 +260,14 @@
 
             return false;
         }); 
+        
+        /*converte calendario em portugues*/
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',                
+            language: 'pt-BR'
+         });
+         
+         
     });
     
     
