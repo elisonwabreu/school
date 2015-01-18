@@ -19,19 +19,19 @@
 	</thead>
 	<tbody>
         <?php
-        $students = $this->db->get_where('student', array(
-            'class_id' => $class_id
+        $students = $this->db->get_where('aluno', array(
+            'al_codigo_classe' => $class_id
         ))->result_array();
         foreach ($students as $row) :
             ?>
         <tr>
-			<td><?php echo $row['roll'];?></td>
+			<td></td>
 			<td><img
-				src="<?php echo $this->crud_model->get_image_url('student',$row['student_id']);?>"
+				src="<?php echo $this->crud_model->get_image_url('student',$row['al_id']);?>"
 				class="img-circle" width="30" /></td>
-			<td><?php echo $row['name'];?></td>
-			<td><?php echo $row['address'];?></td>
-			<td><?php echo $row['email'];?></td>
+			<td><?php echo $row['al_nome'];?></td>
+			<td><?php echo $row['al_logradouro'];?></td>
+			<td><?php echo $row['al_email'];?></td>
 			<td>
 
 				<div class="btn-group">
@@ -44,7 +44,7 @@
 
 						<!-- STUDENT PROFILE LINK -->
 						<li><a href="#"
-							onclick="showAjaxModal('<?php echo base_url();?>index.php?modal/popup/modal_student_profile/<?php echo $row['student_id'];?>');">
+							onclick="showAjaxModal('<?php echo base_url();?>index.php?modal/popup/modal_student_profile/<?php echo $row['al_id'];?>');">
 								<i class="entypo-user"></i>
                                     <?php echo get_phrase('profile');?>
                                 </a>
@@ -52,7 +52,7 @@
 
 						<!-- STUDENT EDITING LINK -->
 						<li><a href="#"
-							onclick="showAjaxModal('<?php echo base_url();?>index.php?modal/popup/modal_student_edit/<?php echo $row['student_id'];?>');">
+							onclick="showAjaxModal('<?php echo base_url();?>index.php?modal/popup/modal_student_edit/<?php echo $row['al_id'];?>');">
 								<i class="entypo-pencil"></i>
                                     <?php echo get_phrase('edit');?>
                                 </a>
@@ -61,7 +61,7 @@
 
 						<!-- STUDENT DELETION LINK -->
 						<li><a href="#"
-							onclick="confirm_modal('<?php echo base_url();?>index.php?admin/student/<?php echo $class_id;?>/delete/<?php echo $row['student_id'];?>');">
+							onclick="confirm_modal('<?php echo base_url();?>index.php?admin/student/<?php echo $class_id;?>/delete/<?php echo $row['al_id'];?>');">
 								<i class="entypo-trash"></i>
                                     <?php echo get_phrase('delete');?>
                                 </a></li>
@@ -80,8 +80,7 @@
 <script type="text/javascript">
 
 	jQuery(document).ready(function($)
-	{
-		
+	{		               
 
 		var datatable = $("#table_export").dataTable({
 			"sPaginationType": "bootstrap",

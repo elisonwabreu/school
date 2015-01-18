@@ -20,7 +20,7 @@
     
     <!-- (Ajax Modal)-->
     <div class="modal fade" id="modal_ajax">
-        <div class="modal-dialog" style="width:1000px;">
+        <div class="modal-dialog" style="width:80%;">
             <div class="modal-content">
                 
                 <div class="modal-header">
