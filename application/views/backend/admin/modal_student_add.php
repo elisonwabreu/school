@@ -28,7 +28,7 @@
                 </div>	
                 <div class="col-md-10">
                     <div class="row">
-
+                        
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label><?php echo get_phrase('name'); ?></label>
@@ -38,7 +38,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Nome da M�e</label>
+                                <label><?php echo get_phrase('mae'); ?></label>
                                 <input type="text" class="form-control" name="al_nome_mae" data-validate="required" placeholder="Nome da m�e" 
                                        data-message-required="<?php echo get_phrase('value_required'); ?>" value="" autofocus="autofocus" />
                             </div>
@@ -54,7 +54,7 @@
                                     foreach ($classes as $row):
                                         ?>
                                         <option value="<?php echo $row['class_id']; ?>">
-                                        <?php echo $row['name']; ?>
+                                            <?php echo $row['name']; ?>
                                         </option>
                                         <?php
                                     endforeach;
@@ -62,7 +62,7 @@
                                 </select>   							
                             </div>
                         </div>	
-                        	
+
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label><?php echo get_phrase('birthday'); ?></label>
@@ -89,7 +89,7 @@
                         </div>	
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>CEP: </label>
+                                <label><?php echo get_phrase('cep'); ?></label>
                                 <input class="form-control" name="al_cep" type="text" placeholder="" />
                             </div>
                         </div>
@@ -101,38 +101,40 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Numero: </label>
+                                <label><?php echo get_phrase('numero'); ?></label>
                                 <input class="form-control" type="text" name="al_numero" placeholder="" />
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>Complemento: </label>
+                                <label><?php echo get_phrase('complemento'); ?></label>
                                 <input class="form-control" name="al_complemento" type="text" placeholder="" />
                             </div>
                         </div>
                         <div class="col-xs-2">
                             <div class="form-group">
-                                <label>Estado: </label>
+                                <label><?php echo get_phrase('estado'); ?></label>
                                 <select class="form-control" name="al_uf">
-                                    <option value="">--Estados--</option>
+                                    <option value=""><?php echo get_phrase('select'); ?></option>
                                     <?php $estados = $this->db->get('estado')->result_array();
-    									foreach($estados as $estado): ?>
-                                    		<option value="<?php echo $estado['est_sigla'];?>"
-                                            	<?php if($row['al_uf'] == $estado['est_sigla'])echo 'selected';?>>
-												<?php echo $estado['est_nome'];?>
-                                            </option>
-                                                <?php
-										endforeach;
-    								?>
-                               </select>								
+                                    foreach ($estados as $estado):
+                                        ?>
+                                        <option value="<?php echo $estado['est_sigla']; ?>"
+                                                    <?php if ($row['al_uf'] == $estado['est_sigla']) echo 'selected'; ?>>
+                                        <?php echo $estado['est_nome']; ?>
+                                        </option>
+                                        <?php
+                                    endforeach;
+                                    ?>
+                                </select>								
                             </div>
                         </div>
 
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Cidade: </label>
+                                <label><?php echo get_phrase('cidade'); ?></label>
                                 <select class="form-control" name="al_cidade">
+                                    <option value=""><?php echo get_phrase('select'); ?></option>
                                     <option value="1">Fortaleza</option>
                                     <option value="1">Belem</option>
                                     <option value="1">Caucaia</option>
@@ -143,7 +145,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Bairro: </label>
+                                <label><?php echo get_phrase('bairro'); ?></label>
                                 <input class="form-control" name= "al_bairro" type="text" placeholder="" />
                             </div>
                         </div>
@@ -155,15 +157,15 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Celular: </label>
+                                <label><?php echo get_phrase('celular'); ?></label>
                                 <input class="form-control" name="al_celular" type="text" placeholder="" />
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Fator RH: </label>
+                                <label><?php echo get_phrase('blood_group'); ?></label>
                                 <select class="form-control" name="al_fator_rh">
-                                    <option value="1"></option>
+                                    <option value=""><?php echo get_phrase('select'); ?></option>
                                     <option value="1">A -</option>
                                     <option value="1">B -</option>
                                     <option value="1">AB -</option>
@@ -178,32 +180,32 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>RG: </label>
+                                <label><?php echo get_phrase('rg'); ?></label>
                                 <input class="form-control" type="text" name="al_rg" placeholder="" />
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>Emissor: </label>
+                                <label><?php echo get_phrase('emissor'); ?></label>
                                 <input class="form-control" type="text" name="al_org_emissor" placeholder="" />
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>CPF: </label>
+                                <label><?php echo get_phrase('cpf'); ?></label>
                                 <input class="form-control" name="al_cpf" type="text" placeholder="" />
                             </div>
                         </div>
-                      
+
                     </div>
                 </div>
                 <div class="row">
-                 <div class="col-md-offset-4 col-md-4">
-                            <div class="form-group">
-                                <button type="submit" class="col-md-offset-4 btn btn-info"><?php echo get_phrase('add_student'); ?></button>
-                            </div>
+                    <div class="col-md-offset-4 col-md-4">
+                        <div class="form-group">
+                            <button type="submit" class="col-md-offset-4 btn btn-info"><?php echo get_phrase('add_student'); ?></button>
                         </div>
-                    <?php echo form_close(); ?>
+                    </div>
+<?php echo form_close(); ?>
                 </div>
             </div>		
         </div>

@@ -171,18 +171,18 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label><?php echo get_phrase('blood_group'); ?></label>
-                                <select class="form-control" name="al_fator_rh"  data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>">
-                                    <option value=""><?php echo get_phrase('select'); ?></option>
-                                    <option value="1">A -</option>
-                                    <option value="1">B -</option>
-                                    <option value="1">AB -</option>
-                                    <option value="1">O -</option>
-                                    <option value="1">A +</option>
-                                    <option value="1">B +</option>
-                                    <option value="1">AB +</option>
-                                    <option value="1">O +</option>								
-                                    <option value="1">Não sabe</option>								
-                                </select>							
+                                    <select class="form-control" name="al_fator_rh"  data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>">
+                                        <option value=""><?php echo get_phrase('select'); ?></option>
+                                        <option value="1">A -</option>
+                                        <option value="1">B -</option>
+                                        <option value="1">AB -</option>
+                                        <option value="1">O -</option>
+                                        <option value="1">A +</option>
+                                        <option value="1">B +</option>
+                                        <option value="1">AB +</option>
+                                        <option value="1">O +</option>								
+                                        <option value="1">Não sabe</option>								
+                                    </select>							
                             </div>
                         </div>
                         <div class="col-md-3">
