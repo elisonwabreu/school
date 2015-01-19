@@ -83,26 +83,47 @@ class Admin extends CI_Controller
 		$page_data['class_id'] 	= $class_id;
 		$this->load->view('backend/index', $page_data);
 	}
-	
+    public function do_upload($campo,$dir) {
+        $upload_path = './assets/uploads/'.$dir.'/';
+        if(!file_exists($upload_path)){
+            mkdir($upload_path, 777);
+        }
+        $config['upload_path'] = $upload_path;
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size'] = '10240';
+        $config['max_width'] = '15000';
+        $config['max_height'] = '15000';
+        $this->load->library('upload', $config);
+        if ($this->upload->do_upload($campo)):
+            return $this->upload->data();
+        else:
+            return $this->upload->display_errors();
+        endif;
+    }
+    
     function student($param1 = '', $param2 = '', $param3 = '')
     {
         if ($this->session->userdata('admin_login') != 1)
             redirect('login', 'refresh');
         if ($param1 == 'create') {
-            $data['name']        = $this->input->post('name');
-            $data['birthday']    = $this->input->post('birthday');
-            $data['sex']         = $this->input->post('sex');
-            $data['address']     = $this->input->post('address');
-            $data['phone']       = $this->input->post('phone');
-            $data['email']       = $this->input->post('email');
-            $data['password']    = $this->input->post('password');
-            $data['class_id']    = $this->input->post('class_id');
-            $data['roll']        = $this->input->post('roll');
-            $this->db->insert('student', $data);
-            $student_id = mysql_insert_id();
-            move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/student_image/' . $student_id . '.jpg');
-            $this->email_model->account_opening_email('student', $data['email']); //SEND EMAIL ACCOUNT OPENING EMAIL
-            redirect(base_url() . 'index.php?admin/student_add/' . $data['class_id'], 'refresh');
+            $student_id = mysql_insert_id() + 1;
+            $upload = $this->do_upload('userfile',$student_id);
+            if (is_array($upload) && $upload['file_name'] != ''):
+                $data['name']        = $this->input->post('name');
+                $data['birthday']    = $this->input->post('birthday');
+                $data['sex']         = $this->input->post('sex');
+                $data['address']     = $this->input->post('address');
+                $data['phone']       = $this->input->post('phone');
+                $data['email']       = $this->input->post('email');
+                $data['password']    = $this->input->post('password');
+                $data['class_id']    = $this->input->post('class_id');
+                $data['roll']        = $this->input->post('roll');
+                $data['al_foto']     = $upload['file_name'];
+                $this->db->insert('student', $data);
+            else:
+                echo 'Erro!';
+                redirect(current_url());
+            endif;
         }
         if ($param2 == 'do_update') {
             $data['name']        = $this->input->post('name');

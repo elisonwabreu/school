@@ -18,11 +18,11 @@
                         <div>
                             <span class="col-md-12 btn btn-info btn-file">
                                 <span class="fileinput-new">Selecione Imagem</span>
-                                <span class="fileinput-exists">Change</span>
+                                <span class="fileinput-exists">Mudar</span>
                                 <input type="file" name="foto" accept="image/*">
                             </span>
                             <a href="#" class="col-md-12 btn btn-orange fileinput-exists" style="margin-top: 3px"
-                               data-dismiss="fileinput">Remove</a>
+                               data-dismiss="fileinput">Remover</a>
                         </div>
                     </div>
                 </div>	
@@ -292,5 +292,3 @@
      */
 
 </script>
-
-
