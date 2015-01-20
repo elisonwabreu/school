@@ -94,11 +94,36 @@ class Admin extends CI_Controller
             
 	    //print_r($this->input->post());            
 	}
+        
+        
+    public function do_upload($campo,$dir) {
+        $upload_path = './assets/uploads/'.$dir.'/';
+        if(!file_exists($upload_path)){
+            mkdir($upload_path, 777);
+        }
+        $config['upload_path'] = $upload_path;
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size'] = '10240';
+        $config['max_width'] = '15000';
+        $config['max_height'] = '15000';
+        $this->load->library('upload', $config);
+        if ($this->upload->do_upload($campo)):
+            return $this->upload->data();
+        else:
+            return $this->upload->display_errors();
+        endif;
+    }
 	
     function student($param1 = '', $param2 = '', $param3 = '')
     {
         if ($this->session->userdata('admin_login') != 1)
             redirect('login', 'refresh');
+        
+        $student_id = mysql_insert_id() + 1;
+        $upload = $this->do_upload('userfile',$student_id);
+        
+        
+        
         if ($param1 == 'create') {
             $data['al_bairro']          = $this->input->post('al_bairro');
             $data['al_celular']         = $this->input->post('al_celular');
@@ -132,7 +157,11 @@ class Admin extends CI_Controller
             
             //$data['class_id']    = $this->input->post('class_id');
             //$data['roll']        = $this->input->post('roll');
+            try{
             $this->db->insert('aluno', $data);
+            }  catch (Exception $e){
+                echo $e;
+            }
             $student_id = mysql_insert_id();
             move_uploaded_file($_FILES['foto']['tmp_name'], 'uploads/student_image/' . $student_id . '.jpg');
             //$this->email_model->account_opening_email('student', $data['email']); //SEND EMAIL ACCOUNT OPENING EMAIL
