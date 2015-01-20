@@ -239,7 +239,7 @@
             }
             
             function erro(data){
-                alert("deu merda");
+                alert("deu merda" + data);
                 //$.loader('close');
                // $('#modal_ajax').modal('hide');
             }
