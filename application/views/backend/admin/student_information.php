@@ -9,12 +9,13 @@
 <table class="table table-bordered datatable" id="table_export">
 	<thead>
 		<tr>
-			<th width="80"><div><?php echo get_phrase('roll');?></div></th>
-			<th width="80"><div><?php echo get_phrase('photo');?></div></th>
-			<th><div><?php echo get_phrase('name');?></div></th>
-			<th class="span3"><div><?php echo get_phrase('address');?></div></th>
-			<th><div><?php echo get_phrase('email');?></div></th>
-			<th><div><?php echo get_phrase('options');?></div></th>
+			<th width="50"><div><?php echo get_phrase('roll');?></div></th>
+			<th width="50"><div><?php echo get_phrase('photo');?></div></th>
+			<th width="280"><div><?php echo get_phrase('name');?></div></th>
+			<th width="280"><div><?php echo get_phrase('mae');?></div></th>
+                        <th width="280"><div><?php echo get_phrase('adress');?></div></th>
+			<th><div><?php echo get_phrase('phone');?></div></th>
+			<th width="50"><div><?php echo get_phrase('options');?></div></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -27,18 +28,19 @@
         <tr>
 			<td></td>
 			<td><img
-				src="<?php echo $this->crud_model->get_image_url('student',$row['al_id']);?>"
+				src="<?php echo $this->crud_model->get_image_url('aluno',$row['al_id']);?>"
 				class="img-circle" width="30" /></td>
 			<td><?php echo $row['al_nome'];?></td>
-			<td><?php echo $row['al_logradouro'];?></td>
-			<td><?php echo $row['al_email'];?></td>
+			<td><?php echo $row['al_nome_mae'];?></td>
+                        <td><?php echo $row['al_logradouro'];?></td>
+                        <td><?php echo $row['al_fone'];?></td>
+			
 			<td>
 
 				<div class="btn-group">
 					<button type="button"
 						class="btn btn-default btn-sm dropdown-toggle"
-						data-toggle="dropdown">
-						Action <span class="caret"></span>
+						data-toggle="dropdown">	Ação <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu dropdown-default pull-right" role="menu">
 
