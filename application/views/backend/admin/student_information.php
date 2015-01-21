@@ -13,7 +13,7 @@
 			<th width="50"><div><?php echo get_phrase('photo');?></div></th>
 			<th width="280"><div><?php echo get_phrase('name');?></div></th>
 			<th width="280"><div><?php echo get_phrase('mae');?></div></th>
-                        <th width="280"><div><?php echo get_phrase('adress');?></div></th>
+                        <th width="280"><div><?php echo get_phrase('endereco');?></div></th>
 			<th><div><?php echo get_phrase('phone');?></div></th>
 			<th width="50"><div><?php echo get_phrase('options');?></div></th>
 		</tr>

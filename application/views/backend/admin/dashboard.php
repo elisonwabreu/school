@@ -32,7 +32,7 @@
                     		data-postfix="" data-duration="1500" data-delay="0">0</div>
                     
                     <h3><?php echo get_phrase('student');?></h3>
-                   <p>Total students</p>
+                   <p>Total de Alunos</p>
                 </div>
                 
             </div>
@@ -44,7 +44,7 @@
                     		data-postfix="" data-duration="800" data-delay="0">0</div>
                     
                     <h3><?php echo get_phrase('teacher');?></h3>
-                   <p>Total teachers</p>
+                   <p>Total de Professores</p>
                 </div>
                 
             </div>
