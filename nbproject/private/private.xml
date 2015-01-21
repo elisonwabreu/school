@@ -3,12 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/Projetos/wamp/www/school/application/views/backend/student/modal_student_edit.php</file>
-            <file>file:/F:/Projetos/wamp/www/school/application/config/config.php</file>
-            <file>file:/F:/Projetos/wamp/www/school/application/views/backend/admin/modal_student_add.php</file>
-            <file>file:/F:/Projetos/wamp/www/school/application/config/database.php</file>
-            <file>file:/F:/Projetos/wamp/www/school/application/controllers/admin.php</file>
-            <file>file:/F:/Projetos/wamp/www/school/application/views/backend/admin/student_add.php</file>
+            <file>file:/E:/Documents/informatica/xampp/htdocs/school/application/config/database.php</file>
+            <file>file:/E:/Documents/informatica/xampp/htdocs/school/application/views/backend/admin/student_add.php</file>
+            <file>file:/E:/Documents/informatica/xampp/htdocs/school/application/models/crud_model.php</file>
+            <file>file:/E:/Documents/informatica/xampp/htdocs/school/application/views/backend/admin/modal_student_add.php</file>
+            <file>file:/E:/Documents/informatica/xampp/htdocs/school/application/views/backend/admin/modal_student_edit.php</file>
+            <file>file:/E:/Documents/informatica/xampp/htdocs/school/application/controllers/admin.php</file>
         </group>
     </open-files>
 </project-private>

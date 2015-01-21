@@ -104,6 +104,11 @@ class Admin extends CI_Controller
         endif;
     }
 	
+    public function teste(){        
+       if(1 == 1){
+          echo json_encode( array( 'date' => 'data' ) );           
+       }
+    }
 
     function student($param1 = '', $param2 = '', $param3 = '')
     {
@@ -114,7 +119,7 @@ class Admin extends CI_Controller
         $upload = $this->do_upload('userfile',$student_id);    
         
         if ($param1 == 'create') {
-
+           
             $student_id = mysql_insert_id() + 1;
             $upload = $this->do_upload('userfile',$student_id);
             
@@ -148,17 +153,14 @@ class Admin extends CI_Controller
             $data['al_codigo_classe']   = $this->input->post('al_codigo_classe');
             
             
-            //$data['class_id']    = $this->input->post('class_id');
-            //$data['roll']        = $this->input->post('roll');
-            try{
-            $this->db->insert('aluno', $data);
-            }  catch (Exception $e){
-                echo $e;
+            if(!$this->db->insert('aluno', $students)){
+                echo json_encode( array( 'erro' => "erro") );
             }
+            
             $student_id = mysql_insert_id();
             move_uploaded_file($_FILES['foto']['tmp_name'], 'uploads/student_image/' . $student_id . '.jpg');
             //$this->email_model->account_opening_email('student', $data['email']); //SEND EMAIL ACCOUNT OPENING EMAIL
-            echo json_encode( array( 'dados' => $this->input->post()) );
+            //echo json_encode( array( 'dados' => $this->input->post()) );
             //redirect(base_url() . 'index.php?admin/student_add/' . $data['class_id'], 'refresh');
 
         }

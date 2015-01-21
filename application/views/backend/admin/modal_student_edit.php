@@ -286,7 +286,7 @@ endforeach;
 
             function sucesso(retorno){
                 var result = JSON.parse( retorno );
-                
+                alert(result.date);
                 if(result.msn === 'erro'){
                     alert("CFP Inválido");
                 }

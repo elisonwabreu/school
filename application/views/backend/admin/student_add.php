@@ -232,13 +232,18 @@
             
             function sucesso(retorno){
                 var result = JSON.parse( retorno );
-                alert("dados salvos com sucessoss" + result);
-                formulario.each (function(){
-                    this.reset();
-                });
+                if(result.erro == "erro"){
+                    alert("Erro ao inserir registro no banco de dados");
+                }else{
+                    alert("Dados cadastrados com sucesso!");
+                    formulario.each (function(){
+                        this.reset();
+                    });                    
+                }
             }
             
             function erro(data){
+                var result = JSON.parse( data );
                 alert("deu merda" + data);
                 //$.loader('close');
                // $('#modal_ajax').modal('hide');
@@ -270,25 +275,6 @@
          
     });
     
-    
-    
-    /*
-     * 
-     *   
-            
-            function carregando(data){                
-                $.loader({content:"<div>Loading Data form Server ...</div>"});
-            }
-            
-            function complete(data){
-               // $('#modal_ajax').modal('hide');
-                
-            }
-            
-            
 
-            
-     * 
-     */
 
 </script>
