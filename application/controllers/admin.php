@@ -267,47 +267,79 @@ class Admin extends CI_Controller
         if ($this->session->userdata('admin_login') != 1)
             redirect(base_url(), 'refresh');
         if ($param1 == 'create') {
-            $data['name']        = $this->input->post('name');
-            $data['birthday']    = $this->input->post('birthday');
-            $data['sex']         = $this->input->post('sex');
-            $data['address']     = $this->input->post('address');
-            $data['phone']       = $this->input->post('phone');
-            $data['email']       = $this->input->post('email');
-            $data['password']    = $this->input->post('password');
-            $this->db->insert('teacher', $data);
+            $data['pr_nome']        = $this->input->post('pr_nome');
+            $data['pr_nome_mae']    = $this->input->post('pr_nome_mae');
+            $data['pr_data_nasc']   = $this->input->post('pr_data_nasc');
+            $data['pr_cpf']         = $this->input->post('pr_cpf');
+            $data['pr_rg']          = $this->input->post('pr_rg');
+            $data['pr_org_emissor'] = $this->input->post('pr_org_emissor');
+            $data['pr_sexo']        = $this->input->post('pr_sexo');
+            $data['pr_cep']         = $this->input->post('pr_cep');
+            $data['pr_logradouro']  = $this->input->post('pr_logradouro');
+            $data['pr_numero']      = $this->input->post('pr_numero');
+            $data['pr_complemento'] = $this->input->post('pr_complemento');
+            $data['pr_bairro']      = $this->input->post('pr_bairro');
+            $fone = preg_replace('/[^0-9]/', '', $this->input->post('pr_fone'));
+            $data['pr_fone']        = $fone;
+            $celular = preg_replace('/[^0-9]/', '', $this->input->post('pr_celular'));
+            $data['pr_celular']     = $celular;
+            $data['pr_email']       = $this->input->post('pr_email');
+            $data['pr_formacao']    = $this->input->post('pr_formacao');
+            $data['pr_foto']        = $this->input->post('pr_foto');
+            $data['pr_cidade']      = $this->input->post('pr_cidade');
+            $data['pr_uf']          = $this->input->post('pr_uf');
+            $data['pr_status']      = $this->input->post('pr_status');
+            $data['pr_status']      = $this->input->post('pr_status');
+            $this->db->insert('professor', $data);
             $teacher_id = mysql_insert_id();
             move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/teacher_image/' . $teacher_id . '.jpg');
             $this->email_model->account_opening_email('teacher', $data['email']); //SEND EMAIL ACCOUNT OPENING EMAIL
             redirect(base_url() . 'index.php?admin/teacher/', 'refresh');
         }
         if ($param1 == 'do_update') {
-            $data['name']        = $this->input->post('name');
-            $data['birthday']    = $this->input->post('birthday');
-            $data['sex']         = $this->input->post('sex');
-            $data['address']     = $this->input->post('address');
-            $data['phone']       = $this->input->post('phone');
-            $data['email']       = $this->input->post('email');
-            $data['password']    = $this->input->post('password');
+           $data['pr_nome']        = $this->input->post('pr_nome');
+            $data['pr_nome_mae']    = $this->input->post('pr_nome_mae');
+            $data['pr_data_nasc']   = $this->input->post('pr_data_nasc');
+            $data['pr_cpf']         = $this->input->post('pr_cpf');
+            $data['pr_rg']          = $this->input->post('pr_rg');
+            $data['pr_org_emissor'] = $this->input->post('pr_org_emissor');
+            $data['pr_sexo']        = $this->input->post('pr_sexo');
+            $data['pr_cep']         = $this->input->post('pr_cep');
+            $data['pr_logradouro']  = $this->input->post('pr_logradouro');
+            $data['pr_numero']      = $this->input->post('pr_numero');
+            $data['pr_complemento'] = $this->input->post('pr_complemento');
+            $data['pr_bairro']      = $this->input->post('pr_bairro');
+            $fone = preg_replace('/[^0-9]/', '', $this->input->post('pr_fone'));
+            $data['pr_fone']        = $fone;
+            $celular = preg_replace('/[^0-9]/', '', $this->input->post('pr_celular'));
+            $data['pr_celular']     = $celular;
+            $data['pr_email']       = $this->input->post('pr_email');
+            $data['pr_formacao']    = $this->input->post('pr_formacao');
+            $data['pr_foto']        = $this->input->post('pr_foto');
+            $data['pr_cidade']      = $this->input->post('pr_cidade');
+            $data['pr_uf']          = $this->input->post('pr_uf');
+            $data['pr_status']      = $this->input->post('pr_status');
+            $data['pr_status']      = $this->input->post('pr_status');
             
-            $this->db->where('teacher_id', $param2);
-            $this->db->update('teacher', $data);
+            $this->db->where('pr_id', $param2);
+            $this->db->update('professor', $data);
             move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/teacher_image/' . $param2 . '.jpg');
             redirect(base_url() . 'index.php?admin/teacher/', 'refresh');
         } else if ($param1 == 'personal_profile') {
             $page_data['personal_profile']   = true;
             $page_data['current_teacher_id'] = $param2;
         } else if ($param1 == 'edit') {
-            $page_data['edit_data'] = $this->db->get_where('teacher', array(
-                'teacher_id' => $param2
+            $page_data['edit_data'] = $this->db->get_where('professor', array(
+                'pr_id' => $param2
             ))->result_array();
         }
         if ($param1 == 'delete') {
-            $this->db->where('teacher_id', $param2);
-            $this->db->delete('teacher');
+            $this->db->where('pr_id', $param2);
+            $this->db->delete('professor');
             redirect(base_url() . 'index.php?admin/teacher/', 'refresh');
         }
-        $page_data['teachers']   = $this->db->get('teacher')->result_array();
-        $page_data['page_name']  = 'teacher';
+        $page_data['professor']   = $this->db->get('professor')->result_array();
+        $page_data['page_name']  = 'professor';
         $page_data['page_title'] = get_phrase('manage_teacher');
         $this->load->view('backend/index', $page_data);
     }
