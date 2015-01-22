@@ -287,9 +287,7 @@ class Admin extends CI_Controller
             $data['pr_formacao']    = $this->input->post('pr_formacao');
             $data['pr_foto']        = $this->input->post('pr_foto');
             $data['pr_cidade']      = $this->input->post('pr_cidade');
-            $data['pr_uf']          = $this->input->post('pr_uf');
-            $data['pr_status']      = $this->input->post('pr_status');
-            $data['pr_status']      = $this->input->post('pr_status');
+            $data['pr_uf']          = $this->input->post('pr_uf');          
             $this->db->insert('professor', $data);
             $teacher_id = mysql_insert_id();
             move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/teacher_image/' . $teacher_id . '.jpg');
@@ -336,10 +334,10 @@ class Admin extends CI_Controller
         if ($param1 == 'delete') {
             $this->db->where('pr_id', $param2);
             $this->db->delete('professor');
-            redirect(base_url() . 'index.php?admin/teacher/', 'refresh');
+            redirect(base_url() . 'index.php?admin/teacher/',$param2,  'refresh');
         }
         $page_data['professor']   = $this->db->get('professor')->result_array();
-        $page_data['page_name']  = 'professor';
+        $page_data['page_name']  = 'teacher';
         $page_data['page_title'] = get_phrase('manage_teacher');
         $this->load->view('backend/index', $page_data);
     }

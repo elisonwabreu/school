@@ -9,30 +9,34 @@
                     <thead>
                         <tr>
                             <th width="80"><div><?php echo get_phrase('photo');?></div></th>
-                            <th><div><?php echo get_phrase('name');?></div></th>
+                            <th width="280"><div><?php echo get_phrase('name');?></div></th>
                             <th><div><?php echo get_phrase('email');?></div></th>
-                            <th><div><?php echo get_phrase('options');?></div></th>
+                            <th><div><?php echo get_phrase('phone');?></div></th>
+                            <th><div><?php echo get_phrase('formacao');?></div></th>
+                            <th width="80"><div><?php echo get_phrase('options');?></div></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php 
-                                $teachers	=	$this->db->get('teacher' )->result_array();
+                                $teachers	=	$this->db->get('professor' )->result_array();
                                 foreach($teachers as $row):?>
                         <tr>
-                            <td><img src="<?php echo $this->crud_model->get_image_url('teacher',$row['teacher_id']);?>" class="img-circle" width="30" /></td>
-                            <td><?php echo $row['name'];?></td>
-                            <td><?php echo $row['email'];?></td>
+                            <td><img src="<?php echo $this->crud_model->get_image_url('teacher',$row['pr_id']);?>" class="img-circle" width="30" /></td>
+                            <td><?php echo $row['pr_nome'];?></td>
+                            <td><?php echo $row['pr_email'];?></td>
+                            <td><?php echo $row['pr_fone'];?></td>
+                            <td><?php echo $row['pr_formacao'];?></td>
                             <td>
                                 
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
-                                        Action <span class="caret"></span>
+                                        Ação <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu dropdown-default pull-right" role="menu">
                                         
                                         <!-- teacher EDITING LINK -->
                                         <li>
-                                        	<a href="#" onclick="showAjaxModal('<?php echo base_url();?>index.php?modal/popup/modal_teacher_edit/<?php echo $row['teacher_id'];?>');">
+                                        	<a href="#" onclick="showAjaxModal('<?php echo base_url();?>index.php?modal/popup/modal_teacher_edit/<?php echo $row['pr_id'];?>');">
                                             	<i class="entypo-pencil"></i>
 													<?php echo get_phrase('edit');?>
                                                	</a>
@@ -72,11 +76,11 @@
 					
 					{
 						"sExtends": "xls",
-						"mColumns": [1,2]
+						"mColumns": [1,2,3,4]
 					},
 					{
 						"sExtends": "pdf",
-						"mColumns": [1,2]
+						"mColumns": [1,2,3,4]
 					},
 					{
 						"sExtends": "print",
