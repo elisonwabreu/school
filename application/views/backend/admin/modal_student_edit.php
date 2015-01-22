@@ -41,11 +41,11 @@ foreach ($edit_data as $row):
                             <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px"></div>
                             <div>
                                 <span class="btn btn-white btn-file">
-                                    <span class="fileinput-new">Select image</span>
-                                    <span class="fileinput-exists">Change</span>
+                                    <span class="fileinput-new">Selecione a Imagem</span>
+                                    <span class="fileinput-exists">Alterar</span>
                                     <input type="file" name="userfile" accept="image/*">
                                 </span>
-                                <a href="#" class="btn btn-orange fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                <a href="#" class="btn btn-orange fileinput-exists" data-dismiss="fileinput">Remover</a>
                             </div>
                         </div>
                     </div>
