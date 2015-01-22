@@ -286,7 +286,7 @@ class Admin extends CI_Controller
             $data['pr_cidade']      = $this->input->post('pr_cidade');
             $data['pr_uf']          = $this->input->post('pr_uf');
             $data['pr_status']      = $this->input->post('pr_status');
-            $data['pr_status']      = $this->input->post('pr_status');
+   
             
             $this->db->where('pr_id', $param2);
             $this->db->update('professor', $data);
@@ -356,31 +356,31 @@ class Admin extends CI_Controller
         if ($this->session->userdata('admin_login') != 1)
             redirect(base_url(), 'refresh');
         if ($param1 == 'create') {
-            $data['name']         = $this->input->post('name');
-            $data['name_numeric'] = $this->input->post('name_numeric');
-            $data['teacher_id']   = $this->input->post('teacher_id');
-            $this->db->insert('class', $data);
+            $data['sl_descricao']   = $this->input->post('sl_descricao');
+            $data['sl_desc_num']    = $this->input->post('sl_desc_num');
+            $data['sl_professor']   = $this->input->post('sl_professor');
+            $this->db->insert('sala', $data);
             redirect(base_url() . 'index.php?admin/classes/', 'refresh');
         }
         if ($param1 == 'do_update') {
-            $data['name']         = $this->input->post('name');
-            $data['name_numeric'] = $this->input->post('name_numeric');
-            $data['teacher_id']   = $this->input->post('teacher_id');
+            $data['sl_descricao']   = $this->input->post('sl_descricao');
+            $data['sl_desc_num']    = $this->input->post('sl_desc_num');
+            $data['sl_professor']   = $this->input->post('sl_professor');
             
-            $this->db->where('class_id', $param2);
-            $this->db->update('class', $data);
+            $this->db->where('sl_id', $param2);
+            $this->db->update('sala', $data);
             redirect(base_url() . 'index.php?admin/classes/', 'refresh');
         } else if ($param1 == 'edit') {
-            $page_data['edit_data'] = $this->db->get_where('class', array(
-                'class_id' => $param2
+            $page_data['edit_data'] = $this->db->get_where('sala', array(
+                'sl_id' => $param2
             ))->result_array();
         }
         if ($param1 == 'delete') {
-            $this->db->where('class_id', $param2);
-            $this->db->delete('class');
+            $this->db->where('sl_id', $param2);
+            $this->db->delete('sala');
             redirect(base_url() . 'index.php?admin/classes/', 'refresh');
         }
-        $page_data['classes']    = $this->db->get('class')->result_array();
+        $page_data['classes']    = $this->db->get('sala')->result_array();
         $page_data['page_name']  = 'class';
         $page_data['page_title'] = get_phrase('manage_class');
         $this->load->view('backend/index', $page_data);
