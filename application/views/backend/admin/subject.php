@@ -31,7 +31,7 @@
                         <tr>
 							<td><?php echo $this->crud_model->get_type_name_by_id('class',$row['class_id']);?></td>
 							<td><?php echo $row['name'];?></td>
-							<td><?php echo $this->crud_model->get_type_name_by_id('teacher',$row['teacher_id']);?></td>
+							<td><?php echo $this->crud_model->get_type_name_by_id('professor',$row['pr_id']);?></td>
 							<td>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
