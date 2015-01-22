@@ -85,44 +85,12 @@ class Admin extends CI_Controller
 		$this->load->view('backend/index', $page_data);
 	}
 
-
-    public function do_upload($campo,$dir) {
-        $upload_path = './assets/uploads/'.$dir.'/';
-        if(!file_exists($upload_path)){
-            mkdir($upload_path, 777);
-        }
-        $config['upload_path'] = $upload_path;
-        $config['allowed_types'] = 'gif|jpg|png';
-        $config['max_size'] = '10240';
-        $config['max_width'] = '15000';
-        $config['max_height'] = '15000';
-        $this->load->library('upload', $config);
-        if ($this->upload->do_upload($campo)):
-            return $this->upload->data();
-        else:
-            return $this->upload->display_errors();
-        endif;
-    }
-	
-    public function teste(){        
-       if(1 == 1){
-          echo json_encode( array( 'date' => 'data' ) );           
-       }
-    }
-
     function student($param1 = '', $param2 = '', $param3 = '')
     {
         if ($this->session->userdata('admin_login') != 1)
-            redirect('login', 'refresh');
+            redirect('login', 'refresh');      
         
-        $student_id = mysql_insert_id() + 1;
-        $upload = $this->do_upload('userfile',$student_id);    
-        
-        if ($param1 == 'create') {
-           
-            $student_id = mysql_insert_id() + 1;
-            $upload = $this->do_upload('userfile',$student_id);
-            
+        if ($param1 == 'create') {            
             $data['al_bairro']          = $this->input->post('al_bairro');
             $data['al_celular']         = $this->input->post('al_celular');
             $data['al_cep']             = $this->input->post('al_cep');
@@ -153,14 +121,14 @@ class Admin extends CI_Controller
             $data['al_codigo_classe']   = $this->input->post('al_codigo_classe');
             
             
-            if(!$this->db->insert('aluno', $students)){
+            if(!$this->db->insert('aluno', $data)){
                 echo json_encode( array( 'erro' => "erro") );
             }
             
             $student_id = mysql_insert_id();
-            move_uploaded_file($_FILES['foto']['tmp_name'], 'uploads/student_image/' . $student_id . '.jpg');
+            move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/student_image/' . $student_id . '.jpg');
             //$this->email_model->account_opening_email('student', $data['email']); //SEND EMAIL ACCOUNT OPENING EMAIL
-            //echo json_encode( array( 'dados' => $this->input->post()) );
+            echo json_encode( array( 'erro' => "nao") );
             //redirect(base_url() . 'index.php?admin/student_add/' . $data['class_id'], 'refresh');
 
         }
@@ -194,9 +162,10 @@ class Admin extends CI_Controller
             
             $this->db->where('al_id', $param3);
             $this->db->update('aluno', $data);
+            
             move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/student_image/' . $param3 . '.jpg');
             $this->crud_model->clear_cache();
-            echo json_encode( array( 'dados' => $this->input->post()) );
+            //echo json_encode( array( 'dados' => $this->input->post()) );
             //redirect(base_url() . 'index.php?admin/student_information/' . $param1, 'refresh');
         } 
 		
@@ -338,8 +307,8 @@ class Admin extends CI_Controller
             $this->db->delete('professor');
             redirect(base_url() . 'index.php?admin/teacher/', 'refresh');
         }
-        $page_data['professor']   = $this->db->get('professor')->result_array();
-        $page_data['page_name']  = 'professor';
+        $page_data['teacher']   = $this->db->get('professor')->result_array();
+        $page_data['page_name']  = 'teacher';
         $page_data['page_title'] = get_phrase('manage_teacher');
         $this->load->view('backend/index', $page_data);
     }

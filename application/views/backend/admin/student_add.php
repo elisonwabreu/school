@@ -19,7 +19,7 @@
                             <span class="col-md-12 btn btn-info btn-file">
                                 <span class="fileinput-new">Selecione Imagem</span>
                                 <span class="fileinput-exists">Mudar</span>
-                                <input type="file" name="foto" accept="image/*">
+                                <input type="file" name="userfile" accept="image/*">
                             </span>
                             <a href="#" class="col-md-12 btn btn-orange fileinput-exists" style="margin-top: 3px"
                                data-dismiss="fileinput">Remover</a>
@@ -232,7 +232,7 @@
             
             function sucesso(retorno){
                 var result = JSON.parse( retorno );
-                if(result.erro == "erro"){
+                if(result.erro === "erro"){
                     alert("Erro ao inserir registro no banco de dados");
                 }else{
                     alert("Dados cadastrados com sucesso!");
