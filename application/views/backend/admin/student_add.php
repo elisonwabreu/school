@@ -7,7 +7,7 @@
                     <?php echo get_phrase('addmission_form'); ?>
                 </div>
             </div>
-            <div class="panel-body bg-info">
+            <div class="panel-body">
                 <?php echo form_open('admin/student/create/', array('name' => 'formulario_add', 'class' => 'validate', 'enctype' => 'multipart/form-data')); ?>  
                 <div class="col-md-2" style="margin-top: 12px">				
                     <div class="fileinput fileinput-new" data-provides="fileinput"><input type="hidden">
