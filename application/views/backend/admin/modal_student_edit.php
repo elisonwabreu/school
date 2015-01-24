@@ -21,6 +21,7 @@ foreach ($edit_data as $row):
         }
     }
     ?>
+<div class="mensagemErro"></div>
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary" data-collapsed="0">
@@ -58,7 +59,7 @@ foreach ($edit_data as $row):
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label><?php echo get_phrase('name'); ?></label>
-                                    <input type="text" class="form-control" name="al_nome" data-validate="required" 
+                                    <input type="text" class="form-control" name="al_nome" data-validate="required"  
                                            data-message-required="<?php echo get_phrase('value_required'); ?>" 
                                            value="<?php echo $row['al_nome']; ?>">
                                 </div>
@@ -294,8 +295,14 @@ endforeach;
 
 <script type="text/javascript">
    
+     $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',                
+            language: 'pt-BR'
+         });
+    
     formulario = $('form[name="formulario"]');
-    formulario.submit(function(){        
+    formulario.submit(function(){  
+        
         codigo_classe = $('#txtCodigoClasse').val();
         codigo = $('#txtCodigo').val();
         dados = $(this).serialize();

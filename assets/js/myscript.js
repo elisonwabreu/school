@@ -4,55 +4,93 @@ $(function(){
 
     function editarAluno(codigo, formulario, codigo_classe, base_url, dados){
        
-         /*formulario = $('form[name="formulario"]');
-        codigo_classe = $('#txtCodigoClasse').val();
-        codigo = $('#txtCodigo').val();*/
+        //formulario.validate();
         url         = base_url + 'index.php?admin/student/'+codigo+'/do_update/' + codigo;
-        //url         = "<?php echo base_url(); ?>" + 'index.php?admin/teste';
+
+        function sucesso(retorno){
+
+           // alert("Dados editados com sucesso!");
+            $('#modal_ajax').modal('hide');  
+            var novaURL = base_url + 'index.php?admin/student_information/'+codigo_classe;
+            $(location).attr('href',novaURL);
+            $('#mensagem').delay(2500).fadeIn('slow');
+            $('#mensagem').addClass('alert alert-success').attr('role', 'alert');
+            $('#mensagem').html("Dados Editados com sucesso");
+            $('#mensagem').delay(1500).fadeOut('slow');
+
+        }
+
+        function carregando(data) {
+
+
+        }
+
+        function complete(data) {
+            // $('#modal_ajax').modal('hide');
+
+        }
+
+        function erro(data) {
+            alert("deu merda");
+            $('#modal_ajax').modal('hide');
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: dados,
+            beforeSend: carregando,
+            error: erro,
+            success: sucesso,
+            complete: complete
+        });
+
+    }
     
-        //formulario.submit(function(){
-
+    function salvarAluno(formulario, base_url, dados){
+        
+        //formulario.validate();
+        
+        url = base_url + 'index.php?admin/student/create/';
+        
+        
+        
             function sucesso(retorno){
-                
-               // alert("Dados editados com sucesso!");
-                $('#modal_ajax').modal('hide');  
-                var novaURL = base_url + 'index.php?admin/student_information/'+codigo_classe;
-                $(location).attr('href',novaURL);
-                $('#mensagem').delay(2500).fadeIn('slow');
-                $('#mensagem').addClass('alert alert-success').attr('role', 'alert');
-                $('#mensagem').html("Dados Editados com sucesso");
-                $('#mensagem').delay(1500).fadeOut('slow');
-                
+                var result = JSON.parse( retorno );
+                if(result.erro === "erro"){
+                    alert("Erro ao inserir registro no banco de dados");
+                }else{
+                    alert("Dados cadastrados com sucesso!");
+                    formulario.each (function(){
+                        this.reset();
+                    });                    
+                }
             }
-
-            function carregando(data) {
-
-
+            
+            function erro(data){
+                var result = JSON.parse( data );
+                alert("erro ao tentar inserir registro");
             }
-
-            function complete(data) {
-                // $('#modal_ajax').modal('hide');
-
+            
+             function carregando(data){                
+                //$.loader({content:"<div>Loading Data form Server ...</div>"});
             }
-
-            function erro(data) {
-                alert("deu merda");
-                $('#modal_ajax').modal('hide');
-            }
-
+            
             $.ajax({
                 type: 'POST',
                 url: url,
                 data: dados,
                 beforeSend: carregando,
                 error: erro,
-                success: sucesso,
-                complete: complete
+                success: sucesso
+               // complete: complete
             });
 
-            
-        //});
+            return false;
     }
+    
+    
+    
     
     function mascara(telefone){ 
         if(telefone.value.length == 0)

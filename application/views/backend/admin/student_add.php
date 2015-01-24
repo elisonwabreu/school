@@ -223,51 +223,24 @@
 <script type="text/javascript">
     $(function(){
         formulario = $('form[name="formulario_add"]');
-          url         = "<?php echo base_url(); ?>" + 'index.php?admin/student/create/';
-        //url         = "<?php echo base_url(); ?>" + 'index.php?admin/teste';
+        base_url   = "<?php echo base_url(); ?>";
     
-        formulario.submit(function(){
-
+        formulario.submit(function(){ 
             
-            
-            function sucesso(retorno){
-                var result = JSON.parse( retorno );
-                if(result.erro === "erro"){
-                    alert("Erro ao inserir registro no banco de dados");
-                }else{
-                    alert("Dados cadastrados com sucesso!");
-                    formulario.each (function(){
-                        this.reset();
-                    });                    
-                }
+            if($(this).validate()){
+                
+            }else{
+               dados = $(this).serialize();
+               salvarAluno(this, base_url, dados); 
             }
             
-            function erro(data){
-                var result = JSON.parse( data );
-                alert("deu merda" + data);
-                //$.loader('close');
-               // $('#modal_ajax').modal('hide');
-            }
             
-             function carregando(data){                
-                //$.loader({content:"<div>Loading Data form Server ...</div>"});
-            }
-            
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: $(this).serialize(),
-                beforeSend: carregando,
-                error: erro,
-                success: sucesso
-               // complete: complete
-            });
 
             return false;
-        }); 
-        
-        /*converte calendario em portugues*/
-        $('.datepicker').datepicker({
+        });
+       
+    
+         $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',                
             language: 'pt-BR'
          });

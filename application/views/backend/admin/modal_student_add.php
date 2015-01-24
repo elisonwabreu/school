@@ -227,43 +227,18 @@
 <script type="text/javascript">
     $(function(){
         formulario = $('form[name="formulario_add"]');
-          url         = "<?php echo base_url(); ?>" + 'index.php?admin/student/create/';
-      
-        formulario.submit(function(){
-
-            function sucesso(retorno){
-                var result = JSON.parse( retorno );
-                alert("dados salvos com sucessoss" + result);
-                formulario.each (function(){
-                    this.reset();
-                });
-            }
+        base_url   = "<?php echo base_url(); ?>";
+    
+        formulario.submit(function(){   
             
-            function erro(data){
-                alert("deu merda" + data);
-                //$.loader('close');
-               // $('#modal_ajax').modal('hide');
-            }
-            
-             function carregando(data){                
-                //$.loader({content:"<div>Loading Data form Server ...</div>"});
-            }
-            
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: $(this).serialize(),
-                beforeSend: carregando,
-                error: erro,
-                success: sucesso
-                complete: complete
-            });
+            dados = $(this).serialize();
+            salvarAluno(this, base_url, dados);
 
             return false;
-        }); 
-        
-        /*converte calendario em portugues*/
-        $('.datepicker').datepicker({
+        });
+       
+    
+         $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',                
             language: 'pt-BR'
          });
