@@ -1,6 +1,7 @@
 <?php
 $edit_data = $this->db->get_where('aluno', array('al_id' => $param2))->result_array();
-$codigo = $row[al_id];
+$codigo = $row['al_id'];
+$codigo_classe = $row['al_codigo_class'];
 foreach ($edit_data as $row):
 
     $telefone = $row[al_fone];
@@ -32,7 +33,8 @@ foreach ($edit_data as $row):
                 <div class="panel-body bg-info">
 
     <?php echo form_open('admin/student/' . $row['al_id'] . '/do_update/' . $row['al_id'], array('name' => 'formulario', 'class' => 'validate', 'enctype' => 'multipart/form-data')); ?>
-                    <input type="hidden" id="txtCodigo" value="<?php echo $row[al_id]; ?>" />
+                    <input type="hidden" id="txtCodigo" value="<?php echo $row['al_id']; ?>" />
+                    <input type="hidden" id="txtCodigoClasse" value="<?php echo $row['al_codigo_classe']; ?>" />
                     <div class="col-md-2" style="margin-top: 12px">				
                         <div class="fileinput fileinput-new" data-provides="fileinput">
                             <div class="fileinput-new thumbnail" style="width: 100px; height: 100px;" data-trigger="fileinput">
@@ -291,55 +293,16 @@ endforeach;
 ?>
 
 <script type="text/javascript">
-    $(function () {
-        formulario = $('form[name="formulario"]');
-        codigo = $('input[type="hidden"]').val();
-        url         = "<?php echo base_url(); ?>" + 'index.php?admin/student/'+codigo+'/do_update/' + codigo;
-        //url         = "<?php echo base_url(); ?>" + 'index.php?admin/teste';
-    
-        formulario.submit(function(){
-
-            function sucesso(retorno){
-                var result = JSON.parse( retorno );
-                alert(result.date);
-                if(result.msn === 'erro'){
-
-                    alert("CFP Inválido");
-                }
-
-
-
-
-                //$('#modal_ajax').modal('hide');   
-            }
-
-            function carregando(data) {
-
-
-            }
-
-            function complete(data) {
-                // $('#modal_ajax').modal('hide');
-
-            }
-
-            function erro(data) {
-                alert("deu merda");
-                $('#modal_ajax').modal('hide');
-            }
-
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: $(this).serialize(),
-                beforeSend: carregando,
-                error: erro,
-                success: sucesso,
-                complete: complete
-            });
-
-            return false;
-        });
+   
+    formulario = $('form[name="formulario"]');
+    formulario.submit(function(){        
+        codigo_classe = $('#txtCodigoClasse').val();
+        codigo = $('#txtCodigo').val();
+        dados = $(this).serialize();
+        editarAluno(codigo, this, codigo_classe, "<?php echo base_url() ?>", dados);
+        
+        return false;
     });
-
+  
+  
 </script>

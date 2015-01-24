@@ -2,33 +2,57 @@ $(function(){
     
 });    
 
-   /* function editarAluno(codigo, formulario){
-        //url         = "<?php echo base_url(); ?>" + 'index.php?admin/student/'+codigo+'/do_update/' + codigo;
-        url         = "<?php echo base_url(); ?>" + 'index.php?admin/teste';
-        formulario  = $('form[name="formulario"]');
-        formulario.submit(function(){
+    function editarAluno(codigo, formulario, codigo_classe, base_url, dados){
+       
+         /*formulario = $('form[name="formulario"]');
+        codigo_classe = $('#txtCodigoClasse').val();
+        codigo = $('#txtCodigo').val();*/
+        url         = base_url + 'index.php?admin/student/'+codigo+'/do_update/' + codigo;
+        //url         = "<?php echo base_url(); ?>" + 'index.php?admin/teste';
+    
+        //formulario.submit(function(){
 
             function sucesso(retorno){
-                var result = JSON.parse( retorno );
-                alert("retornoou legal" + result.dados.al_nome);
-                //$('#modal_ajax').modal('hide');
-            }   
+                
+               // alert("Dados editados com sucesso!");
+                $('#modal_ajax').modal('hide');  
+                var novaURL = base_url + 'index.php?admin/student_information/'+codigo_classe;
+                $(location).attr('href',novaURL);
+                $('#mensagem').delay(2500).fadeIn('slow');
+                $('#mensagem').addClass('alert alert-success').attr('role', 'alert');
+                $('#mensagem').html("Dados Editados com sucesso");
+                $('#mensagem').delay(1500).fadeOut('slow');
+                
+            }
+
+            function carregando(data) {
+
+
+            }
+
+            function complete(data) {
+                // $('#modal_ajax').modal('hide');
+
+            }
+
+            function erro(data) {
+                alert("deu merda");
+                $('#modal_ajax').modal('hide');
+            }
 
             $.ajax({
                 type: 'POST',
                 url: url,
-                data: $(this).serialize(),
+                data: dados,
+                beforeSend: carregando,
+                error: erro,
                 success: sucesso,
-                error: function(resp){alert("deu merda");}
+                complete: complete
             });
 
-            /*$.post(url, $(this).serialize(), function(dados){
-                   alert(dados);
-            });
-
-            return false;
-        }); 
-    }*/
+            
+        //});
+    }
     
     function mascara(telefone){ 
         if(telefone.value.length == 0)
