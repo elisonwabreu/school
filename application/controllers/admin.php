@@ -364,7 +364,7 @@ class Admin extends CI_Controller
         if ($param1 == 'create') {
             $data['sl_descricao']   = $this->input->post('sl_descricao');
             $data['sl_desc_num']    = $this->input->post('sl_desc_num');
-            $data['sl_professor']   = $this->input->post('sl_professor');
+            $data['sl_prof_id']     = $this->input->post('sl_prof_id');
             $this->db->insert('sala', $data);
             redirect(base_url() . 'index.php?admin/classes/', 'refresh');
         }
@@ -386,7 +386,7 @@ class Admin extends CI_Controller
             $this->db->delete('sala');
             redirect(base_url() . 'index.php?admin/classes/', 'refresh');
         }
-        $page_data['classes']    = $this->db->get('sala')->result_array();
+        $page_data['classes_sala']    = $this->db->get('sala')->result_array();
         $page_data['page_name']  = 'class';
         $page_data['page_title'] = get_phrase('manage_class');
         $this->load->view('backend/index', $page_data);

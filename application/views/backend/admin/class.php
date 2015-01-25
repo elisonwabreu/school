@@ -30,12 +30,12 @@
                     </thead>
                     <tbody>
                         <?php $count = 1;
-                        foreach ($classes as $row): ?>
+                        foreach ($classes_sala as $row): ?>
                             <tr>
                                 <td><?php echo $count++; ?></td>
                                 <td><?php echo $row['sl_descricao']; ?></td>
                                 <td><?php echo $row['sl_desc_num']; ?></td>
-                                <td><?php echo $this->crud_model->get_type_name_by_id('teacher', $row['teacher_id']); ?></td>
+                                <td><?php echo $this->crud_model->get_type_professor_name_by_id('professor', $row['sl_prof_id']); ?></td>
                                 <td>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
@@ -78,19 +78,19 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label"><?php echo get_phrase('name'); ?></label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" name="name" data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>"/>
+                                <input type="text" class="form-control" name="sl_descricao" data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label"><?php echo get_phrase('name_numeric'); ?></label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" name="name_numeric"/>
+                                <input type="text" class="form-control" name="sl_desc_num"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label"><?php echo get_phrase('teacher'); ?></label>
                             <div class="col-sm-5">
-                                <select name="teacher_id" class="form-control" style="width:100%;">
+                                <select name="sl_prof_id" class="form-control" style="width:100%;">
                                     <?php
                                     $teachers = $this->db->get('professor')->result_array();
                                     foreach ($teachers as $row):
