@@ -222,7 +222,42 @@
 
 <script type="text/javascript">
     $(function(){
-        formulario = $('form[name="formulario_add"]');
+        base_url    = "<?php echo base_url(); ?>";
+        url         = base_url + 'index.php?admin/student/create/';
+        $('form[name="formulario_add"]').validate({
+                rules: {
+                        al_nome: { required: true, minlength: 2 },
+                        //al_email: { required: true, email: true }                        
+                        al_nome_mae: { required: true}                        
+                },
+                messages: {
+                        al_nome: { required: 'Preencha o campo nome', minlength: 'No mínimo 2 letras' },
+                        //al_email: { required: 'Informe o seu email', email: 'Ops, informe um email válido' }
+                        al_nome_mae: { required: 'Informe o nome da mãe' }
+                },
+                submitHandler: function( form ){
+                        var dados = $( form ).serialize();
+                        $.ajax({
+                                type: "POST",
+                                url: url,
+                                data: dados,
+                                success: function( data )
+                                {
+                                    alert("Dados cadastrados com sucesso!");
+                                }
+                        });
+
+                        return false;
+                }
+        });
+        
+        
+        
+        
+        
+        
+        
+        /*formulario = $('form[name="formulario_add"]');
         base_url   = "<?php echo base_url(); ?>";
     
         formulario.submit(function(){ 
@@ -243,7 +278,7 @@
          $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',                
             language: 'pt-BR'
-         });
+         });*/
          
          
     });

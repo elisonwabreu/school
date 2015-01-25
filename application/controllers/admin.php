@@ -134,7 +134,7 @@ class Admin extends CI_Controller
             $student_id = mysql_insert_id();
             move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/student_image/' . $student_id . '.jpg');
             //$this->email_model->account_opening_email('student', $data['email']); //SEND EMAIL ACCOUNT OPENING EMAIL
-            echo json_encode( array( 'erro' => "nao") );
+            //echo json_encode( array( 'erro' => "nao") );
             //redirect(base_url() . 'index.php?admin/student_add/' . $data['class_id'], 'refresh');
 
         }
