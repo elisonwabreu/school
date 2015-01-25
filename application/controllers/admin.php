@@ -91,12 +91,32 @@ class Admin extends CI_Controller
 		$this->load->view('backend/index', $page_data);
 	}
 
+    
+    function imagem(){
+        print_r($this->input->post());
+        print_r($_FILES['userfile']);
+        exit;
+
+    }
+        
     function student($param1 = '', $param2 = '', $param3 = '')
     {
         if ($this->session->userdata('admin_login') != 1)
-            redirect('login', 'refresh');      
+            redirect('login', 'refresh');  
         
-        if ($param1 == 'create') {            
+        
+        $array = camposNotNull('aluno');
+        $validados = validaCamposNotNull($this->input->post(), $array);
+        
+        if(!empty($validados)){
+            //print_r($validados);
+            echo json_encode(array("msg" => "validacao", "validacao" => $validados));
+            return;                       
+        }
+        
+        
+        if ($param1 == 'create') { 
+            
             $data['al_bairro']          = $this->input->post('al_bairro');
             $data['al_celular']         = $this->input->post('al_celular');
             $data['al_cep']             = $this->input->post('al_cep');
@@ -115,8 +135,9 @@ class Admin extends CI_Controller
             $data['al_fator_rh']        = $this->input->post('al_fator_rh');
             $data['al_fone']            = $this->input->post('al_fone');
             $data['al_foto']            = $this->input->post('al_foto');
-            $data['al_logradouro']      = $this->input->post('al_logradouro');
-            $data['al_nome']            = $this->input->post('al_nome');
+            $data['al_logradouro']      = $this->input->post('al_logradouro');        
+            
+            $data['al_nome']            = htmlspecialchars(mysql_real_escape_string($this->input->post('al_nome')));
             $data['al_nome_mae']        = $this->input->post('al_nome_mae');
             $data['al_numero']          = $this->input->post('al_numero');
             $data['al_org_emissor']     = $this->input->post('al_org_emissor');
@@ -127,12 +148,14 @@ class Admin extends CI_Controller
             $data['al_codigo_classe']   = $this->input->post('al_codigo_classe');
             
             
-            if(!$this->db->insert('aluno', $data)){
-                echo json_encode( array( 'erro' => "erro") );
+            if($this->db->insert('aluno', $data)){
+                $student_id = mysql_insert_id();
+                move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/student_image/' . $student_id . '.jpg');
+                echo json_encode( array( 'msg' => 'sucesso') );                
+            }else{
+                echo json_encode( array( 'msg' => 'erro', 'mensagem' => $this->db->_error_message() . " - " . $this->db->_error_number()) );                
             }
             
-            $student_id = mysql_insert_id();
-            move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/student_image/' . $student_id . '.jpg');
             //$this->email_model->account_opening_email('student', $data['email']); //SEND EMAIL ACCOUNT OPENING EMAIL
             //echo json_encode( array( 'erro' => "nao") );
             //redirect(base_url() . 'index.php?admin/student_add/' . $data['class_id'], 'refresh');

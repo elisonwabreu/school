@@ -27,3 +27,38 @@ function validaCPF($cpf){
     
     return TRUE;
 }
+
+function camposNotNull($tabela){
+    $result = mysql_query("SHOW COLUMNS FROM " . $tabela);
+    if (!$result) {
+        echo 'Could not run query: ' . mysql_error();
+        exit;
+    }
+    //$array = array();
+    if (mysql_num_rows($result) > 0) {
+        while ($row = mysql_fetch_assoc($result)) {
+            if($row['Null'] == 'NO'){
+                $array[] = $row;                
+            }
+        }
+    }
+    
+    return $array;
+}
+
+function validaCamposNotNull($dados, $camposNotNull){
+    
+    foreach ($camposNotNull as $key => $value) {
+        foreach ($dados as $chave => $valor) {
+            if($value['Field'] == $chave){
+                if($valor == ""){
+                    
+                    $array[] = $chave; 
+                }
+            }
+        }
+                
+    }
+    
+    return $array;
+}

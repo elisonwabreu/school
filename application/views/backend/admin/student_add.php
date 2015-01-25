@@ -1,3 +1,4 @@
+<div id="resposta"></div>
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-primary" data-collapsed="0">
@@ -209,7 +210,7 @@
                 <div class="row">
                  <div class="col-md-offset-4 col-md-4">
                             <div class="form-group">
-                                <button type="submit" class="col-md-offset-4 btn btn-info"><?php echo get_phrase('add_student'); ?></button>
+                                <button type="submit"  class="col-md-offset-4 btn btn-info"><?php echo get_phrase('add_student'); ?></button>
                             </div>
                         </div>
 <?php echo form_close(); ?>
@@ -222,63 +223,46 @@
 
 <script type="text/javascript">
     $(function(){
-        base_url    = "<?php echo base_url(); ?>";
-        url         = base_url + 'index.php?admin/student/create/';
-        $('form[name="formulario_add"]').validate({
-                rules: {
-                        al_nome: { required: true, minlength: 2 },
-                        //al_email: { required: true, email: true }                        
-                        al_nome_mae: { required: true}                        
-                },
-                messages: {
-                        al_nome: { required: 'Preencha o campo nome', minlength: 'No mínimo 2 letras' },
-                        //al_email: { required: 'Informe o seu email', email: 'Ops, informe um email válido' }
-                        al_nome_mae: { required: 'Informe o nome da mãe' }
-                },
-                submitHandler: function( form ){
-                        var dados = $( form ).serialize();
-                        $.ajax({
-                                type: "POST",
-                                url: url,
-                                data: dados,
-                                success: function( data )
-                                {
-                                    alert("Dados cadastrados com sucesso!");
-                                }
-                        });
+        
+        url         = "<?php echo base_url(); ?>" + 'index.php?admin/student/create/';
+        var sender  = $('form[name="formulario_add"]');
+        var loader  = $('#resposta');
+        
+        function sucesso(retorno){
+            //alert("retornou!" + retorno);
+            var result = JSON.parse( retorno );
 
-                        return false;
-                }
-        });
+            if(result.msg == "validacao"){
+                loader.fadeIn("fast");
+                loader.addClass("alert alert-danger").html("Preencha os campos obrigatórios");
+                loader.fadeOut(4000);
+                //função que percorre os campos de preenchimento obrigatório
+                /*$.each(result.validacao, function(i, item){
+                    alert(result.validacao[i]);
+               });*/ 
+            }else if(result.msg == "erro"){
+                alert("Erro ao inserir registro no banco de dados" + result.mensagem );
+            }else if(result.msg == "sucesso"){
+                alert("Dados cadastrados com sucesso!" + result.result);
+                formulario.each (function(){
+                    this.reset();
+                });
+            }                
+        }
         
+        function erro(data){
+            var result = JSON.parse( data );
+            alert("erro ao tentar inserir registro");
+        }
         
-        
-        
-        
-        
-        
-        /*formulario = $('form[name="formulario_add"]');
-        base_url   = "<?php echo base_url(); ?>";
-    
-        formulario.submit(function(){ 
-            
-            if($(this).validate()){
-                
-            }else{
-               dados = $(this).serialize();
-               salvarAluno(this, base_url, dados); 
-            }
-            
-            
-
+        sender.submit(function(){
+            $(this).ajaxSubmit({
+                url: url,
+                success: sucesso,
+                error: erro
+            });                        
             return false;
         });
-       
-    
-         $('.datepicker').datepicker({
-            format: 'dd/mm/yyyy',                
-            language: 'pt-BR'
-         });*/
          
          
     });

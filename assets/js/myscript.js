@@ -47,47 +47,72 @@ $(function(){
 
     }
     
-    function salvarAluno(formulario, base_url, dados){
+    /*function teste(base_url){
+        //alert("entrou");
+        url         = base_url + 'index.php?admin/imagem';
+        var sender  = $('form[name="formulario_add"]');
+        var loader  = $('#resposta');
         
-        //formulario.validate();
-        
-        url = base_url + 'index.php?admin/student/create/';
-        
-        
-        
-            function sucesso(retorno){
-                var result = JSON.parse( retorno );
-                if(result.erro === "erro"){
-                    alert("Erro ao inserir registro no banco de dados");
-                }else{
-                    alert("Dados cadastrados com sucesso!");
-                    formulario.each (function(){
-                        this.reset();
-                    });                    
-                }
-            }
-            
-            function erro(data){
-                var result = JSON.parse( data );
-                alert("erro ao tentar inserir registro");
-            }
-            
-             function carregando(data){                
-                //$.loader({content:"<div>Loading Data form Server ...</div>"});
-            }
-            
-            $.ajax({
-                type: 'POST',
+        sender.submit(function(){
+            $(this).ajaxSubmit({
                 url: url,
-                data: dados,
-                beforeSend: carregando,
-                error: erro,
-                success: sucesso
-               // complete: complete
+                success: function(dado){
+                    loader.empty().html('<pre>'+ dado + '</pre>');
+                }
+                //error: erro
             });
-
+            
             return false;
+        });
+    }*/
+    
+    //se chamar essa função no onclick do botão do formulario do student_add ela submete mais de uma vez o formulario
+    //não descobri o porque ainda
+    function salvarAluno(base_url){
+        url         = base_url + 'index.php?admin/student/create/';
+        var sender  = $('form[name="formulario_add"]');
+        var loader  = $('#resposta');
+        
+        function sucesso(retorno){
+            //alert("retornou!" + retorno);
+            var result = JSON.parse( retorno );
+
+            if(result.msg == "validacao"){
+                loader.fadeIn("fast");
+                loader.addClass("alert alert-danger").html("Preencha os campos obrigatórios");
+                loader.fadeOut(4000);
+                //função que percorre os campos de preenchimento obrigatório
+                /*$.each(result.validacao, function(i, item){
+                    alert(result.validacao[i]);
+               });*/ 
+            }else if(result.msg == "erro"){
+                alert("Erro ao inserir registro no banco de dados" + result.mensagem );
+            }else if(result.msg == "sucesso"){
+                alert("Dados cadastrados com sucesso!" + result.result);
+                formulario.each (function(){
+                    this.reset();
+                });
+            }                
+        }
+        
+        function erro(data){
+            var result = JSON.parse( data );
+            alert("erro ao tentar inserir registro");
+        }
+        
+        sender.submit(function(){
+            $(this).ajaxSubmit({
+                url: url,
+                success: sucesso,
+                error: erro
+            });                        
+            return false;
+        });
+        
+        return false;
     }
+    
+    
     
     
     
