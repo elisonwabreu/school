@@ -6,6 +6,7 @@
     </a>
 <br>
 <br>
+<div id="mensagem"></div>
 <table class="table table-bordered datatable" id="table_export">
 	<thead>
 		<tr>
@@ -20,9 +21,7 @@
 	</thead>
 	<tbody>
         <?php
-        $students = $this->db->get_where('aluno', array(
-            'al_codigo_classe' => $class_id
-        ))->result_array();
+        $students = $this->db->get_where('aluno', array('al_codigo_classe' => $class_id))->result_array();
         foreach ($students as $row) :
             ?>
         <tr>
@@ -82,7 +81,9 @@
 <script type="text/javascript">
 
 	jQuery(document).ready(function($)
-	{		               
+	{		      
+            
+            
 
 		var datatable = $("#table_export").dataTable({
 			"sPaginationType": "bootstrap",
@@ -126,6 +127,28 @@
 		$(".dataTables_wrapper select").select2({
 			minimumResultsForSearch: -1
 		});
+                
+                //$('#mensagem').html("Dados Editados com sucesso");
+                
+            /*    function sucesso(data){
+                    var result = JSON.parse( data );
+                    var resultado = result.result[0];
+                    alert(result.result.length);
+                    alert(resultado.al_nome);
+                }
+            
+            $.ajax({
+                type: 'GET',
+                url: "<?php echo base_url();?>"+'index.php?admin/teste_information/'+"<?php echo $class_id ?>",
+                //data: ,
+                //beforeSend: carregando,
+                //error: erro,
+                success: sucesso
+                //complete: complete
+            });*/
+            
 	});
+        
+        
 		
 </script>

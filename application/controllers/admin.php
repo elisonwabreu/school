@@ -72,6 +72,12 @@ class Admin extends CI_Controller
 		$page_data['class_id'] 	= $class_id;
 		$this->load->view('backend/index', $page_data);
 	}
+        
+        function teste_information($class_id){
+            $students = $this->db->get_where('aluno', array('al_codigo_classe' => $class_id))->result_array();
+            echo json_encode( array( 'result' => $students) );
+            //echo json_encode( $students );
+        }
 	
 	function student_marksheet($class_id = '')
 	{
