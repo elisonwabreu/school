@@ -1,4 +1,4 @@
-<div id="resposta"></div>
+<div class="resposta"></div>
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-primary" data-collapsed="0">
@@ -225,8 +225,8 @@
     $(function(){
         
         url         = "<?php echo base_url(); ?>" + 'index.php?admin/student/create/';
-        var sender  = $('form[name="formulario_add"]');
-        var loader  = $('#resposta');
+        var formulario  = $('form[name="formulario_add"]');
+        var loader  = $('.resposta');
         
         function sucesso(retorno){
             //alert("retornou!" + retorno);
@@ -255,7 +255,7 @@
             alert("erro ao tentar inserir registro");
         }
         
-        sender.submit(function(){
+        formulario.submit(function(){
             $(this).ajaxSubmit({
                 url: url,
                 success: sucesso,
@@ -264,9 +264,13 @@
             return false;
         });
          
+    $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',                
+            language: 'pt-BR'
+         });
          
     });
     
-
+    
 
 </script>

@@ -1,3 +1,4 @@
+<div class="resposta"></div>
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-primary" data-collapsed="0">
@@ -19,7 +20,7 @@
                             <span class="col-md-12 btn btn-info btn-file">
                                 <span class="fileinput-new">Select image</span>
                                 <span class="fileinput-exists">Change</span>
-                                <input type="file" name="foto" accept="image/*">
+                                <input type="file" name="userfile" accept="image/*">
                             </span>
                             <a href="#" class="col-md-12 btn btn-orange fileinput-exists" style="margin-top: 3px"
                                data-dismiss="fileinput">Remove</a>
@@ -226,25 +227,62 @@
 
 <script type="text/javascript">
     $(function(){
-        formulario = $('form[name="formulario_add"]');
-        base_url   = "<?php echo base_url(); ?>";
-    
-        formulario.submit(function(){   
-            
-            dados = $(this).serialize();
-            salvarAluno(this, base_url, dados);
+        var base_url = "<?php echo base_url(); ?>";
+        url         = base_url + 'index.php?admin/student/create/';
+        var formulario  = $('form[name="formulario_add"]');
+        var loader  = $('.resposta');
+        var codigo_classe = "<?php echo $this->uri->segment(4) ?>";
+        
+        function sucesso(retorno){
+            //alert("retornou!" + retorno);
+            var result = JSON.parse( retorno );
 
+            if(result.msg == "validacao"){
+                loader.fadeIn("fast");
+                loader.addClass("alert alert-danger").html("Preencha os campos obrigatórios");
+                loader.fadeOut(4000);
+                //função que percorre os campos de preenchimento obrigatório
+                /*$.each(result.validacao, function(i, item){
+                    alert(result.validacao[i]);
+               });*/ 
+            }else if(result.msg == "erro"){
+                alert("Erro ao inserir registro no banco de dados" + result.mensagem );
+            }else if(result.msg == "sucesso"){
+                $('#modal_ajax').modal('hide'); 
+                
+                var novaURL = base_url + 'index.php?admin/student_information/'+codigo_classe;
+                $(location).attr('href',novaURL);
+                $('#mensagem').delay(2500).fadeIn('slow');
+                $('#mensagem').addClass('alert alert-success').attr('role', 'alert');
+                $('#mensagem').html("Dados inseridos com sucesso");
+                $('#mensagem').delay(1500).fadeOut('slow');
+                //alert("Dados cadastrados com sucesso!" + result.result);
+                //$('#modal_ajax').modal('hide');
+            }                
+        }
+        
+        function erro(data){
+            var result = JSON.parse( data );
+            alert("erro ao tentar inserir registro");
+        }
+        
+        formulario.submit(function(){                
+            $(this).ajaxSubmit({
+                url: url,
+                success: sucesso,
+                error: erro
+            });                        
             return false;
         });
-       
-    
-         $('.datepicker').datepicker({
+         
+    $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',                
             language: 'pt-BR'
          });
          
-         
     });
+         
+
     
 
 </script>

@@ -3,7 +3,10 @@ $edit_data = $this->db->get_where('aluno', array('al_id' => $param2))->result_ar
 $codigo = $row['al_id'];
 $codigo_classe = $row['al_codigo_class'];
 foreach ($edit_data as $row):
-
+    
+    $data_nascimento = explode('-', $row['al_data_nasc']);
+    $row['al_data_nasc'] = $data_nascimento[2].'/'.$data_nascimento[1].'/'.$data_nascimento[0];
+    
     $telefone = $row[al_fone];
 
     $novo = '(';
@@ -21,7 +24,7 @@ foreach ($edit_data as $row):
         }
     }
     ?>
-<div class="mensagemErro"></div>
+<div class="resposta"></div>
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary" data-collapsed="0">
@@ -280,10 +283,7 @@ foreach ($edit_data as $row):
                             </div>
                         </div>
                     </div>    
-                    <?php echo form_close(); ?>
-                    <!--                    <div class="row">
-                                            <div class="alert alert-danger col-md-offset-1 col-md-10" role="alert">erro de cpf</div>
-                                       </div>    -->
+                    <?php echo form_close(); ?>                    
                 </div>
             </div>
         </div>
@@ -295,20 +295,58 @@ endforeach;
 
 <script type="text/javascript">
    
-     $('.datepicker').datepicker({
+    $(function(){
+        var base_url = "<?= base_url() ?>";
+        var codigo_classe = $('#txtCodigoClasse').val();
+        var codigo = $('#txtCodigo').val();       
+        var formulario  = $('form[name="formulario"]');
+        var loader  = $('.resposta');
+        var url         = base_url + 'index.php?admin/student/'+codigo+'/do_update/' + codigo;
+        
+        function sucesso(retorno){
+            //alert("retornou!" + retorno);
+            var result = JSON.parse( retorno );
+
+            if(result.msg == "validacao"){
+                loader.fadeIn("fast");
+                loader.addClass("alert alert-danger").html("Preencha os campos obrigatórios");
+                loader.fadeOut(4000);
+                //função que percorre os campos de preenchimento obrigatório
+                /*$.each(result.validacao, function(i, item){
+                    alert(result.validacao[i]);
+               });*/ 
+            }else if(result.msg == "erro"){
+                alert("Erro ao editar registro no banco de dados" + result.mensagem );
+            }else if(result.msg == "sucesso"){
+                $('#modal_ajax').modal('hide');  
+                var novaURL = base_url + 'index.php?admin/student_information/'+codigo_classe;
+                $(location).attr('href',novaURL);
+                $('#mensagem').delay(2500).fadeIn('slow');
+                $('#mensagem').addClass('alert alert-success').attr('role', 'alert');
+                $('#mensagem').html("Dados Editados com sucesso");
+                $('#mensagem').delay(1500).fadeOut('slow');
+            }                
+        }
+                
+        function erro(data){
+            var result = JSON.parse( data );
+            alert("erro ao tentar inserir registro");
+        }
+        
+        formulario.submit(function(){
+            $(this).ajaxSubmit({
+                url: url,
+                success: sucesso,
+                error: erro
+            });                        
+            return false;
+        });
+         
+    $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',                
             language: 'pt-BR'
          });
-    
-    formulario = $('form[name="formulario"]');
-    formulario.submit(function(){  
-        
-        codigo_classe = $('#txtCodigoClasse').val();
-        codigo = $('#txtCodigo').val();
-        dados = $(this).serialize();
-        editarAluno(codigo, this, codigo_classe, "<?php echo base_url() ?>", dados);
-        
-        return false;
+         
     });
   
   

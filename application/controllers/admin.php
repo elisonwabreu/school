@@ -128,9 +128,8 @@ class Admin extends CI_Controller
                 echo '1';
             }*/          
             
-            $data['al_cpf']             = $this->input->post('al_cpf');
-            $data['al_data_alteracao']  = $this->input->post('al_data_alteracao');
-            $data['al_data_nasc']       = $this->input->post('al_data_nasc');
+            $data['al_cpf']             = $this->input->post('al_cpf');            
+            $data['al_data_nasc']       = formataDataParaBanco($this->input->post('al_data_nasc'));            
             $data['al_email']           = $this->input->post('al_email');
             $data['al_fator_rh']        = $this->input->post('al_fator_rh');
             $data['al_fone']            = $this->input->post('al_fone');
@@ -150,7 +149,7 @@ class Admin extends CI_Controller
             
             if($this->db->insert('aluno', $data)){
                 $student_id = mysql_insert_id();
-                move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/student_image/' . $student_id . '.jpg');
+                move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/aluno_image/' . $student_id . '.jpg');
                 echo json_encode( array( 'msg' => 'sucesso') );                
             }else{
                 echo json_encode( array( 'msg' => 'erro', 'mensagem' => $this->db->_error_message() . " - " . $this->db->_error_number()) );                
@@ -169,8 +168,9 @@ class Admin extends CI_Controller
             $data['al_cod_usuario']     = $this->input->post('al_cod_usuario');
             $data['al_complemento']     = $this->input->post('al_complemento');
             $data['al_cpf']             = $this->input->post('al_cpf');
-            $data['al_data_alteracao']  = $this->input->post('al_data_alteracao');
-            $data['al_data_nasc']       = $this->input->post('al_data_nasc');
+           $data['al_data_nasc']       = formataDataParaBanco($this->input->post('al_data_nasc'));            
+            
+            
             $data['al_email']           = $this->input->post('al_email');
             $data['al_fator_rh']        = $this->input->post('al_fator_rh');
             
@@ -190,9 +190,15 @@ class Admin extends CI_Controller
             $data['al_codigo_classe']   = $this->input->post('al_codigo_classe');
             
             $this->db->where('al_id', $param3);
-            $this->db->update('aluno', $data);
             
-            move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/student_image/' . $param3 . '.jpg');
+            
+            if($this->db->update('aluno', $data)){                
+                move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/aluno_image/' . $param3 . '.jpg');
+                echo json_encode( array( 'msg' => 'sucesso') );                
+            }else{
+                echo json_encode( array( 'msg' => 'erro', 'mensagem' => $this->db->_error_message() . " - " . $this->db->_error_number()) );                
+            }
+            
             $this->crud_model->clear_cache();
             //echo json_encode( array( 'dados' => $this->input->post()) );
             //redirect(base_url() . 'index.php?admin/student_information/' . $param1, 'refresh');
@@ -201,6 +207,10 @@ class Admin extends CI_Controller
         if ($param2 == 'delete') {
             $this->db->where('al_id', $param3);
             $this->db->delete('aluno');
+            $foto = 'uploads/aluno_image/'.$param3.'.jpg';
+            if(file_exists($foto)){                
+                unlink($foto);                
+            }
             redirect(base_url() . 'index.php?admin/student_information/' . $param1, 'refresh');
         }
     }

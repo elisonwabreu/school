@@ -62,3 +62,14 @@ function validaCamposNotNull($dados, $camposNotNull){
     
     return $array;
 }
+
+function formataDataParaBanco($data){
+    
+    $data = explode('/', $data);
+    return $data[2].'-'.$data[1].'-'.$data[0];    
+}
+
+function formataDataParaSistema($data){
+    $data = explode('-', $data);
+    return $data[0].'/'.$data[1].'/'.$data[2];    
+}

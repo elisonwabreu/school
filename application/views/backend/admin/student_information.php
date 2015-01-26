@@ -1,6 +1,6 @@
 
 <a href="javascript:;"
-	onclick="showAjaxModal('<?php echo base_url();?>index.php?modal/popup/modal_student_add/');"
+	onclick="showAjaxModal('<?php echo base_url();?>index.php?modal/popup/modal_student_add/'+'<?= $this->uri->segment(3, 1); ?>');"
 	class="btn btn-primary pull-right"> <i class="entypo-plus-circled"></i>
         <?php echo get_phrase('add_new_student');?>
     </a>
@@ -21,7 +21,7 @@
 	</thead>
 	<tbody>
         <?php
-        $students = $this->db->get_where('aluno', array('al_codigo_classe' => $class_id))->result_array();
+        $students = $this->db->get_where('aluno', array('al_codigo_classe' => $class_id))->result_array();        
         foreach ($students as $row) :
             ?>
         <tr>
