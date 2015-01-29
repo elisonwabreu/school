@@ -71,7 +71,7 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label><?php echo get_phrase('birthday'); ?></label>
-                                    <input type="text" class="form-control datepicker" name="al_data_nasc" placeholder="dd/mm/aaaa" 
+                                    <input type="text" class="form-control" name="al_data_nasc" placeholder="dd/mm/aaaa" 
                                            value="" data-start-view="2">
                                 </div>
                             </div>	
@@ -275,14 +275,14 @@
             return false;
         });
          
-    $('.datepicker').datepicker({
+         $('input[name="al_data_nasc"]').datepicker({
             format: 'dd/mm/yyyy',                
             language: 'pt-BR'
          });
          
     });
          
-
+    
     
 
 </script>

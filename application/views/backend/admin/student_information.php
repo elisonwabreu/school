@@ -81,9 +81,13 @@
 <script type="text/javascript">
 
 	jQuery(document).ready(function($)
-	{		      
+	{	
+           
             
-            
+                 $('.datepicker').datepicker({
+                    format: 'dd/mm/yyyy',                
+                    language: 'pt-BR'
+                });
 
 		var datatable = $("#table_export").dataTable({
 			"sPaginationType": "bootstrap",

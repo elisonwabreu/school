@@ -168,7 +168,7 @@ class Admin extends CI_Controller
             $data['al_cod_usuario']     = $this->input->post('al_cod_usuario');
             $data['al_complemento']     = $this->input->post('al_complemento');
             $data['al_cpf']             = $this->input->post('al_cpf');
-           $data['al_data_nasc']       = formataDataParaBanco($this->input->post('al_data_nasc'));            
+            $data['al_data_nasc']       = formataDataParaBanco($this->input->post('al_data_nasc'));            
             
             
             $data['al_email']           = $this->input->post('al_email');

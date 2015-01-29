@@ -19,7 +19,7 @@
 	</script>
     
     <!-- (Ajax Modal)-->
-    <div class="modal fade" id="modal_ajax">
+    <div class="modal fade" id="modal_ajax" aria-hidden="true">
         <div class="modal-dialog" style="width:80%;">
             <div class="modal-content">
                 

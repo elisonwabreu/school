@@ -66,7 +66,8 @@ function validaCamposNotNull($dados, $camposNotNull){
 function formataDataParaBanco($data){
     
     $data = explode('/', $data);
-    return $data[2].'-'.$data[1].'-'.$data[0];    
+    $nova = $data[2].'-'.$data[1].'-'.$data[0]; 
+    return $nova;    
 }
 
 function formataDataParaSistema($data){

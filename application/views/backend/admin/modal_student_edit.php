@@ -34,19 +34,19 @@ foreach ($edit_data as $row):
     <?php echo get_phrase('edit_student'); ?>
                     </div>
                 </div>
-                <div class="panel-body bg-info">
+                <div class="panel-body">
 
     <?php echo form_open('admin/student/' . $row['al_id'] . '/do_update/' . $row['al_id'], array('name' => 'formulario', 'class' => 'validate', 'enctype' => 'multipart/form-data')); ?>
                     <input type="hidden" id="txtCodigo" value="<?php echo $row['al_id']; ?>" />
                     <input type="hidden" id="txtCodigoClasse" value="<?php echo $row['al_codigo_classe']; ?>" />
                     <div class="col-md-2" style="margin-top: 12px">				
                         <div class="fileinput fileinput-new" data-provides="fileinput">
-                            <div class="fileinput-new thumbnail" style="width: 100px; height: 100px;" data-trigger="fileinput">
+                            <div class="fileinput-new thumbnail" data-trigger="fileinput">
                                 <img src="<?php echo $this->crud_model->get_image_url('aluno', $row['al_id']); ?>" alt="...">
                             </div>
                             <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px"></div>
                             <div>
-                                <span class="btn btn-white btn-file">
+                                <span class="col-md-12 btn btn-info btn-file">
                                     <span class="fileinput-new">Selecione a Imagem</span>
                                     <span class="fileinput-exists">Alterar</span>
                                     <input type="file" name="userfile" accept="image/*">
@@ -55,7 +55,7 @@ foreach ($edit_data as $row):
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="col-md-10">
                         <div class="row">
                             <div class="row">
@@ -102,7 +102,7 @@ foreach ($edit_data as $row):
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label><?php echo get_phrase('birthday'); ?></label>
-                                    <input type="text" class="form-control datepicker" name="al_data_nasc" placeholder="dd/mm/aaaa" 
+                                    <input type="text" class="form-control" name="al_data_nasc" placeholder="dd/mm/aaaa" 
                                            value="<?php echo $row['al_data_nasc']; ?>" data-start-view="2" data-validate="required" 
                                             data-message-required="<?php echo get_phrase('value_required'); ?>">
                                 </div>
@@ -232,15 +232,15 @@ foreach ($edit_data as $row):
                                     <label><?php echo get_phrase('blood_group'); ?></label>
                                     <select class="form-control" name="al_fator_rh" data-validate="required" 
                                             data-message-required="<?php echo get_phrase('value_required'); ?>">
-                                        <option value="1"></option>
-                                        <option value="1">A -</option>
-                                        <option value="1">B -</option>
-                                        <option value="1">AB -</option>
-                                        <option value="1">O -</option>
-                                        <option value="1">A +</option>
-                                        <option value="1">B +</option>
-                                        <option value="1">AB +</option>
-                                        <option value="1">O +</option>								
+                                        <option value="">Grupo Sanguineo</option>
+                                        <option value="A -" <?php echo $row['al_fator_rh'] == 'A -' ? 'selected' : "" ?> >A -</option>
+                                        <option value="B -" <?php echo $row['al_fator_rh'] ==  'B -' ? 'selected' : "" ?> >B -</option>
+                                        <option value="AB -" <?php echo $row['al_fator_rh'] ==  'AB -' ? 'selected' : "" ?> >AB -</option>
+                                        <option value="O -" <?php echo $row['al_fator_rh'] ==  'O -' ? 'selected' : ""?>>O -</option>
+                                        <option value="A +" <?php echo  $row['al_fator_rh'] ==  'A +' ? 'selected' : ""?> >A +</option>
+                                        <option value="B +" <?php echo $row['al_fator_rh'] ==  'B +' ? 'selected' : "" ?>>B +</option>
+                                        <option value="AB +" <?php echo  $row['al_fator_rh'] ==  'AB +' ? 'selected' : ""?> >AB +</option>
+                                        <option value="O +" <?php echo $row['al_fator_rh'] ==  'O +' ? 'selected' : "" ?> >O +</option>								
                                         <option value="1">Não sabe</option>								
                                     </select>							
                                 </div>
@@ -295,7 +295,13 @@ endforeach;
 
 <script type="text/javascript">
    
-    $(function(){
+    $(function(){      
+        
+        $('input[name="al_data_nasc"]').datepicker({
+            format: 'dd/mm/yyyy',                
+            language: 'pt-BR'
+         });
+        
         var base_url = "<?= base_url() ?>";
         var codigo_classe = $('#txtCodigoClasse').val();
         var codigo = $('#txtCodigo').val();       
@@ -319,14 +325,18 @@ endforeach;
                 alert("Erro ao editar registro no banco de dados" + result.mensagem );
             }else if(result.msg == "sucesso"){
                 $('#modal_ajax').modal('hide');  
-                var novaURL = base_url + 'index.php?admin/student_information/'+codigo_classe;
-                $(location).attr('href',novaURL);
-                $('#mensagem').delay(2500).fadeIn('slow');
-                $('#mensagem').addClass('alert alert-success').attr('role', 'alert');
-                $('#mensagem').html("Dados Editados com sucesso");
-                $('#mensagem').delay(1500).fadeOut('slow');
             }                
         }
+        
+        $('#modal_ajax').on('hidden.bs.modal', function (e) {
+            $('#mensagem').delay(5000).fadeIn('4000');
+            $('#mensagem').addClass('alert alert-success').attr('role', 'alert');
+            $('#mensagem').html("Dados Editados com sucesso");
+            $('#mensagem').delay(5000).fadeOut('4000');
+            setTimeout(5000);
+            var novaURL = base_url + 'index.php?admin/student_information/'+codigo_classe;
+            $(location).attr('href',novaURL);
+          });
                 
         function erro(data){
             var result = JSON.parse( data );
@@ -342,10 +352,7 @@ endforeach;
             return false;
         });
          
-    $('.datepicker').datepicker({
-            format: 'dd/mm/yyyy',                
-            language: 'pt-BR'
-         });
+    
          
     });
   

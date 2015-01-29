@@ -233,7 +233,7 @@
             var result = JSON.parse( retorno );
 
             if(result.msg == "validacao"){
-                loader.fadeIn("fast");
+                loader.fadeIn(4000);
                 loader.addClass("alert alert-danger").html("Preencha os campos obrigatórios");
                 loader.fadeOut(4000);
                 //função que percorre os campos de preenchimento obrigatório
