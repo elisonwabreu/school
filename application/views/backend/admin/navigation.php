@@ -133,11 +133,11 @@
 					<span><?php echo get_phrase('subject');?></span>
 				</a>
               <ul>
-                  <?php $classes	=	$this->db->get('class')->result_array();
+                  <?php $classes	=	$this->db->get('sala')->result_array();
                   foreach ($classes as $row):?>
-                  <li class="<?php if ($page_name == 'subject' && $class_id == $row['class_id']) echo 'active';?>">
-                      <a href="<?php echo base_url();?>index.php?admin/subject/<?php echo $row['class_id'];?>">
-                          <span><?php echo get_phrase('class');?> <?php echo $row['name'];?></span>
+                  <li class="<?php if ($page_name == 'subject' && $class_id == $row['sl_id']) echo 'active';?>">
+                      <a href="<?php echo base_url();?>index.php?admin/subject/<?php echo $row['sl_id'];?>">
+                          <span><?php echo get_phrase('class');?> <?php echo $row['sl_descricao'];?></span>
                       </a>
                   </li>
                   <?php endforeach;?>

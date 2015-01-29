@@ -358,32 +358,32 @@ class Admin extends CI_Controller
         if ($this->session->userdata('admin_login') != 1)
             redirect(base_url(), 'refresh');
         if ($param1 == 'create') {
-            $data['name']       = $this->input->post('name');
-            $data['class_id']   = $this->input->post('class_id');
-            $data['teacher_id'] = $this->input->post('teacher_id');
-            $this->db->insert('subject', $data);
-            redirect(base_url() . 'index.php?admin/subject/'.$data['class_id'], 'refresh');
+            $data['dis_descricao']       = $this->input->post('dis_descricao');
+            $data['dis_sala_id']         = $this->input->post('dis_sala_id');
+            $data['dis_professor_id']    = $this->input->post('dis_professor_id');
+            $this->db->insert('disciplina', $data);
+            redirect(base_url() . 'index.php?admin/subject/'.$data['dis_id'], 'refresh');
         }
         if ($param1 == 'do_update') {
-            $data['name']       = $this->input->post('name');
-            $data['class_id']   = $this->input->post('class_id');
-            $data['teacher_id'] = $this->input->post('teacher_id');
+            $data['dis_descricao']       = $this->input->post('dis_descricao');
+            $data['dis_sala_id']         = $this->input->post('dis_sala_id');
+            $data['dis_professor_id']    = $this->input->post('dis_professor_id');
             
-            $this->db->where('subject_id', $param2);
-            $this->db->update('subject', $data);
-            redirect(base_url() . 'index.php?admin/subject/'.$data['class_id'], 'refresh');
+            $this->db->where('dis_id', $param2);
+            $this->db->update('disciplina', $data);
+            redirect(base_url() . 'index.php?admin/subject/'.$data['dis_id'], 'refresh');
         } else if ($param1 == 'edit') {
-            $page_data['edit_data'] = $this->db->get_where('subject', array(
-                'subject_id' => $param2
+            $page_data['edit_data'] = $this->db->get_where('disciplina', array(
+                'dis_id' => $param2
             ))->result_array();
         }
         if ($param1 == 'delete') {
-            $this->db->where('subject_id', $param2);
-            $this->db->delete('subject');
+            $this->db->where('dis_id', $param2);
+            $this->db->delete('disciplina');
             redirect(base_url() . 'index.php?admin/subject/'.$param3, 'refresh');
         }
-		 $page_data['class_id']   = $param1;
-        $page_data['subjects']   = $this->db->get_where('subject' , array('class_id' => $param1))->result_array();
+        $page_data['dis_sala_id']   = $param1;
+        $page_data['disciplina_get']   = $this->db->get_where('disciplina' , array('dis_sala_id' => $param1))->result_array();
         $page_data['page_name']  = 'subject';
         $page_data['page_title'] = get_phrase('manage_subject');
         $this->load->view('backend/index', $page_data);
