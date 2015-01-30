@@ -31,7 +31,7 @@ function validaCPF($cpf){
 function camposNotNull($tabela){
     $result = mysql_query("SHOW COLUMNS FROM " . $tabela);
     if (!$result) {
-        echo 'Could not run query: ' . mysql_error();
+        echo 'erro ao executar comando: ' . mysql_error();
         exit;
     }
     //$array = array();

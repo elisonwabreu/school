@@ -141,11 +141,7 @@
                                 <label><?php echo get_phrase('cidade'); ?></label>
                                 <select class="form-control" name="al_cidade" data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>">
                                     <option value=""><?php echo get_phrase('select'); ?></option>
-                                    <option value="1">Fortaleza</option>
-                                    <option value="1">Belem</option>
-                                    <option value="1">Caucaia</option>
-                                    <option value="1">Maracanau</option>								
-                                    <option value="1">Sao Paulo</option>								
+                                    								
                                 </select>							
                             </div>
                         </div>
@@ -257,6 +253,7 @@
         
         formulario.submit(function(){
             $(this).ajaxSubmit({
+                type: 'POST',
                 url: url,
                 success: sucesso,
                 error: erro
@@ -264,12 +261,39 @@
             return false;
         });
          
-    $('.datepicker').datepicker({
-            format: 'dd/mm/yyyy',                
-            language: 'pt-BR'
-         });
+        $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',                
+                language: 'pt-BR'
+        });
+    
+        $('select[name="al_uf"]').change(function(){
+            base = "<?php echo base_url(); ?>";
+           $.ajax({
+               type: 'POST',
+                url: base + 'index.php?admin/getCidades/' + $(this).val(),                
+                success: retorno,
+                error: function(dado){
+                    alert("erro");
+                }
+            });
+            
+            function retorno(data){
+                var result = JSON.parse( data );  
+                $('select[name="al_cidade"]').html("<option value=''></option>");
+                var options = "";
+                $.each(result, function(i, item) {
+                    options += '<option value="' + result[i].cid_id + '">' + result[i].cid_nome + '</option>'
+                    //$(select[name="al_cidade"]).
+                    //alert(result[i].cid_nome);
+                })
+                
+                $('select[name="al_cidade"]').html(options).show();
+            }
+            
+        });
+    
          
-    });
+});
     
     
 

@@ -16,13 +16,13 @@ class Admin extends CI_Controller
     
 	function __construct()
 	{
-		parent::__construct();
-		$this->load->database();
-                $this->load->helper('funcoes');
+            parent::__construct();
+            $this->load->database();
+            $this->load->helper('funcoes');
 		
        /*cache control*/
-		$this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
-		$this->output->set_header('Pragma: no-cache');
+            $this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
+            $this->output->set_header('Pragma: no-cache');
                 
        /* echo '<pre>';
         print_r($this->session->all_userdata());
@@ -104,8 +104,9 @@ class Admin extends CI_Controller
         if ($this->session->userdata('admin_login') != 1)
             redirect('login', 'refresh');  
         
-        
+        //retorna um array contendo os campos que são not null no banco de dados
         $array = camposNotNull('aluno');
+        //verifica se os campos not null estão preenchidos
         $validados = validaCamposNotNull($this->input->post(), $array);
         
         if(!empty($validados)){
@@ -213,6 +214,19 @@ class Admin extends CI_Controller
             }
             redirect(base_url() . 'index.php?admin/student_information/' . $param1, 'refresh');
         }
+    }
+    
+    function getCidades($param1 = ""){
+        if ($this->session->userdata('admin_login') != 1)
+                    redirect('login', 'refresh');
+        
+        $id = $this->db->get_where("estado",array('est_sigla'=>$param1))->row()->est_id;
+        
+        $cidade = $this->db->get_where('cidade', array(
+                'cid_estado_id' => $id
+            ))->result_array();
+        
+        echo json_encode($cidade);
     }
      /****MANAGE PARENTS CLASSWISE*****/
     function parent($param1 = '', $param2 = '', $param3 = '')
