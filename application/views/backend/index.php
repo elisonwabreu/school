@@ -13,8 +13,8 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<meta name="description" content="Ekattor School Manager Pro - Creativeitem" />
-	<meta name="author" content="Creativeitem" />
+	<meta name="description" content="DoctypeSolution & THDMaster Pro - Creativeitem" />
+	<meta name="author" content="DoctypeSolution & THDMaster" />
 	
 	
 
@@ -27,12 +27,10 @@
 		<div class="main-content">
 		
 			<?php include 'header.php';?>
-
-           <h3 style="margin:20px 0px; color:#818da1; font-weight:200;">
+           <h3 style=" color:#818da1; font-weight:200;">
            	<i class="entypo-right-circled"></i> 
 				<?php echo $page_title;?>
-           </h3>
-
+           </h3>  
 			<?php include $account_type.'/'.$page_name.'.php';?>
 
 			<?php include 'footer.php';?>

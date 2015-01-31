@@ -11,7 +11,7 @@
             <div class="panel-body">
                 <?php echo form_open('admin/student/create/', array('name' => 'formulario_add', 'class' => 'validate', 'enctype' => 'multipart/form-data')); ?>  
                 <div class="col-md-2" style="margin-top: 12px">				
-                    <div class="fileinput fileinput-new" data-provides="fileinput"><input type="hidden">
+                    <div class="fileinput-new" data-provides="fileinput"><input type="hidden">
                         <div class="fileinput-new thumbnail" data-trigger="fileinput">
                             <img src="http://placehold.it/200x200" alt="...">
                         </div>
@@ -122,11 +122,11 @@
                         <div class="col-xs-2">
                             <div class="form-group">
                                 <label><?php echo get_phrase('estado'); ?></label>
-                                <select class="form-control" name="al_uf"  data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>">
+                                <select class="form-control" name="al_uf" class="estados"  data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>">
                                     <option value="">--Estados--</option>
                                     <?php $estados = $this->db->get('estado')->result_array();
     					foreach($estados as $estado): ?>
-                                            <option value="<?php echo $estado['est_sigla'];?>">
+                                            <option value="<?php echo $estado['est_id'];?>">
 						<?php echo $estado['est_nome'];?>
                                             </option>
                                         <?php
@@ -168,7 +168,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label><?php echo get_phrase('blood_group'); ?></label>
-                                    <select class="form-control" name="al_fator_rh"  data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>">
+                                    <select class="form-control" name="al_fator_rh" >
                                         <option value=""><?php echo get_phrase('select'); ?></option>
                                         <option value="1">A -</option>
                                         <option value="1">B -</option>
@@ -178,7 +178,7 @@
                                         <option value="1">B +</option>
                                         <option value="1">AB +</option>
                                         <option value="1">O +</option>								
-                                        <option value="1">Não sabe</option>								
+                                        <option value="1">Não Informado</option>								
                                     </select>							
                             </div>
                         </div>
@@ -267,15 +267,23 @@
         });
     
         $('select[name="al_uf"]').change(function(){
+            var select = $('.estados :selected').text();
+            //alert(select);
             base = "<?php echo base_url(); ?>";
-           $.ajax({
-               type: 'POST',
-                url: base + 'index.php?admin/getCidades/' + $(this).val(),                
-                success: retorno,
-                error: function(dado){
-                    alert("erro");
-                }
-            });
+            if(select !== "--Estados--"){
+                $.ajax({
+                    type: 'POST',
+                     url: base + 'index.php?admin/getCidades/' + $(this).val(),                
+                     success: retorno,
+                     error: function(dado){
+                         alert("erro");
+                     }
+                 }); 
+            }else{
+                $('select[name="al_cidade"]').html("<option value=''>Selecione</option>");
+            }
+                
+            
             
             function retorno(data){
                 var result = JSON.parse( data );  

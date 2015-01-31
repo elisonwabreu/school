@@ -40,7 +40,7 @@ foreach ($edit_data as $row):
                     <input type="hidden" id="txtCodigo" value="<?php echo $row['al_id']; ?>" />
                     <input type="hidden" id="txtCodigoClasse" value="<?php echo $row['al_codigo_classe']; ?>" />
                     <div class="col-md-2" style="margin-top: 12px">				
-                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                        <div class="fileinput-new" data-provides="fileinput">
                             <div class="fileinput-new thumbnail" data-trigger="fileinput">
                                 <img src="<?php echo $this->crud_model->get_image_url('aluno', $row['al_id']); ?>" alt="...">
                             </div>
@@ -51,7 +51,8 @@ foreach ($edit_data as $row):
                                     <span class="fileinput-exists">Alterar</span>
                                     <input type="file" name="userfile" accept="image/*">
                                 </span>
-                                <a href="#" class="btn btn-orange fileinput-exists" data-dismiss="fileinput">Remover</a>
+                                <a href="#" class="col-md-12 btn btn-orange fileinput-exists" style="margin-top: 3px"
+                               data-dismiss="fileinput">Remover</a>
                             </div>
                         </div>
                     </div>
@@ -168,14 +169,14 @@ foreach ($edit_data as $row):
                             <div class="col-xs-2">
                                 <div class="form-group">
                                     <label><?php echo get_phrase('estado'); ?></label>
-                                    <select class="form-control" name="al_uf" data-validate="required" 
+                                    <select class="form-control" name="al_uf" data-validate="required" class="estados" 
                                             data-message-required="<?php echo get_phrase('value_required'); ?>">
                                         <option value="" >--Estados--</option>
                                         <?php $estados = $this->db->get('estado')->result_array();
                                         foreach ($estados as $estado):
                                             ?>
-                                            <option value="<?php echo $estado['est_sigla']; ?>"
-                                                    <?php if ($row['al_uf'] == $estado['est_sigla']) echo 'selected'; ?>>
+                                            <option value="<?php echo $estado['est_id']; ?>"
+                                                    <?php if ($row['al_uf'] == $estado['est_id']) echo 'selected'; ?>>
                                                         <?php echo $estado['est_nome']; ?>
                                             </option>
                                             <?php
@@ -190,11 +191,19 @@ foreach ($edit_data as $row):
                                     <label><?php echo get_phrase('cidade'); ?></label>
                                     <select class="form-control" name="al_cidade" data-validate="required" 
                                             data-message-required="<?php echo get_phrase('value_required'); ?>">
-                                        <option value="1">Fortaleza</option>
-                                        <option value="1">Belem</option>
-                                        <option value="1">Caucaia</option>
-                                        <option value="1">Maracanau</option>								
-                                        <option value="1">Sao Paulo</option>								
+                                        <?php 
+                                        $cidades = $this->db->get_where('cidade', array(
+                                                                'cid_estado_id' => $row['al_uf']
+                                                            ))->result_array();                                        
+                                        //$estados = $this->db->get('cidade')->result_array();
+    					foreach($cidades as $cidade): ?>
+                                            <option value="<?php echo $cidade['cid_id'];?>" 
+                                                <?php if($cidade['cid_id'] == $row['al_cidade']) echo 'selected';?>>
+						<?php echo $cidade['cid_nome'];?>
+                                            </option>
+                                        <?php
+					endforeach;
+    					?>								
                                     </select>							
                                 </div>
                             </div>
@@ -230,7 +239,7 @@ foreach ($edit_data as $row):
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label><?php echo get_phrase('blood_group'); ?></label>
-                                    <select class="form-control" name="al_fator_rh" data-validate="required" 
+                                    <select class="form-control" name="al_fator_rh"  
                                             data-message-required="<?php echo get_phrase('value_required'); ?>">
                                         <option value="">Grupo Sanguineo</option>
                                         <option value="A -" <?php echo $row['al_fator_rh'] == 'A -' ? 'selected' : "" ?> >A -</option>
@@ -350,6 +359,41 @@ endforeach;
                 error: erro
             });                        
             return false;
+        });
+        
+        
+        
+        $('select[name="al_uf"]').change(function(){             
+            var select = $('.estados :selected').text();
+            //alert(select);
+            base = "<?php echo base_url(); ?>";
+            if(select !== "--Estados--"){
+                $.ajax({
+                    type: 'POST',
+                     url: base + 'index.php?admin/getCidades/' + $(this).val(),                
+                     success: retorno,
+                     error: function(dado){
+                         alert("erro");
+                     }
+                 }); 
+            }else{
+                $('select[name="al_cidade"]').html("<option value=''>Selecione</option>");
+            }
+                
+            
+            
+            function retorno(data){
+                var result = JSON.parse( data );  
+                $('select[name="al_cidade"]').html("<option value=''></option>");
+                var options = "";
+                $.each(result, function(i, item) {
+                    options += '<option value="' + result[i].cid_id + '">' + result[i].cid_nome + '</option>'
+                    //$(select[name="al_cidade"]).
+                    //alert(result[i].cid_nome);
+                })
+                
+                $('select[name="al_cidade"]').html(options).show();
+            }
         });
          
     

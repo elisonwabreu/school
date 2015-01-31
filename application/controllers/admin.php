@@ -220,10 +220,8 @@ class Admin extends CI_Controller
         if ($this->session->userdata('admin_login') != 1)
                     redirect('login', 'refresh');
         
-        $id = $this->db->get_where("estado",array('est_sigla'=>$param1))->row()->est_id;
-        
         $cidade = $this->db->get_where('cidade', array(
-                'cid_estado_id' => $id
+                'cid_estado_id' => $param1
             ))->result_array();
         
         echo json_encode($cidade);

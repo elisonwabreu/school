@@ -11,7 +11,7 @@
             <div class="panel-body">
                 <?php echo form_open('admin/student/create/', array('name' => 'formulario_add', 'class' => 'validate', 'enctype' => 'multipart/form-data')); ?>  
                 <div class="col-md-2" style="margin-top: 12px">				
-                    <div class="fileinput fileinput-new" data-provides="fileinput"><input type="hidden">
+                    <div class="fileinput-new" data-provides="fileinput"><input type="hidden">
                         <div class="fileinput-new thumbnail" data-trigger="fileinput">
                             <img src="http://placehold.it/200x200" alt="...">
                         </div>
@@ -123,19 +123,16 @@
                             <div class="col-xs-2">
                                 <div class="form-group">
                                     <label><?php echo get_phrase('estado'); ?></label>
-                                    <select class="form-control" name="al_uf">
+                                    <select class="form-control" name="al_uf" class="estados">
                                         <option value=""><?php echo get_phrase('select'); ?></option>
-                                        <?php
-                                        $estados = $this->db->get('estado')->result_array();
-                                        foreach ($estados as $estado):
-                                            ?>
-                                            <option value="<?php echo $estado['est_sigla']; ?>"
-                                                        <?php if ($row['al_uf'] == $estado['est_sigla']) echo 'selected'; ?>>
-                                            <?php echo $estado['est_nome']; ?>
+                                        <?php $estados = $this->db->get('estado')->result_array();
+    					foreach($estados as $estado): ?>
+                                            <option value="<?php echo $estado['est_id'];?>">
+						<?php echo $estado['est_nome'];?>
                                             </option>
-                                            <?php
-                                        endforeach;
-                                        ?>
+                                        <?php
+					endforeach;
+    					?>
                                     </select>								
                                 </div>
                             </div>
@@ -144,12 +141,7 @@
                                 <div class="form-group">
                                     <label><?php echo get_phrase('cidade'); ?></label>
                                     <select class="form-control" name="al_cidade">
-                                        <option value=""><?php echo get_phrase('select'); ?></option>
-                                        <option value="1">Fortaleza</option>
-                                        <option value="1">Belem</option>
-                                        <option value="1">Caucaia</option>
-                                        <option value="1">Maracanau</option>								
-                                        <option value="1">Sao Paulo</option>								
+                                        <option value=""><?php echo get_phrase('select'); ?></option>                                        								
                                     </select>							
                                 </div>
                             </div>
@@ -186,7 +178,7 @@
                                         <option value="1">B +</option>
                                         <option value="1">AB +</option>
                                         <option value="1">O +</option>								
-                                        <option value="1">Não sabe</option>								
+                                        <option value="1">Não Informado</option>								
                                     </select>							
                                 </div>
                             </div>
@@ -280,6 +272,43 @@
             language: 'pt-BR'
          });
          
+         
+         $('select[name="al_uf"]').change(function(){             
+            var select = $('.estados :selected').text();
+            //alert(select);
+            base = "<?php echo base_url(); ?>";
+            if(select !== "--Estados--"){
+                $.ajax({
+                    type: 'POST',
+                     url: base + 'index.php?admin/getCidades/' + $(this).val(),                
+                     success: retorno,
+                     error: function(dado){
+                         alert("erro");
+                     }
+                 }); 
+            }else{
+                $('select[name="al_cidade"]').html("<option value=''>Selecione</option>");
+            }
+                
+            
+            
+            function retorno(data){
+                var result = JSON.parse( data );  
+                $('select[name="al_cidade"]').html("<option value=''></option>");
+                var options = "";
+                $.each(result, function(i, item) {
+                    options += '<option value="' + result[i].cid_id + '">' + result[i].cid_nome + '</option>'
+                    //$(select[name="al_cidade"]).
+                    //alert(result[i].cid_nome);
+                })
+                
+                $('select[name="al_cidade"]').html(options).show();
+            }
+        });
+         
+         
+         
+    
     });
          
     
