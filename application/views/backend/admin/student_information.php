@@ -32,7 +32,7 @@
 			<td><?php echo $row['al_nome'];?></td>
 			<td><?php echo $row['al_nome_mae'];?></td>
                         <td><?php echo $row['al_logradouro'];?></td>
-                        <td><?php echo $row['al_fone'];?></td>
+                        <td id="al_fone"><?php echo $row['al_fone'];?></td>
 			
 			<td>
 
@@ -79,12 +79,55 @@
 
 <!-----  DATA TABLE EXPORT CONFIGURATIONS ----->
 <script type="text/javascript">
+    
+    function formataFone(elemento){
+        var tam = elemento.length;
+        if(tam === 10){
+            novo = "";
+            novo += '(';
+            for(i = 0; i < tam; i++){
+                if(i < 2){
+                    novo += elemento[i];
+                }
+                if(i === 2){
+                    novo += ') ';
+                    novo += elemento[i];
+                }
+                if(i > 2 && i < 6){
+                    novo += elemento[i];
+                    if(i === 5){
+                        novo += '-';
+                    }
+                }
+                if(i > 5){
+                    novo += elemento[i];
+                }
+            }
+            return novo;
+        }else{        
+            while(elemento.length < 10){
+                elemento = '0' + elemento;
+            }
+            return formataFone(elemento);
+        }
+    }
 
 	jQuery(document).ready(function($)
 	{	
            
-            
-                 $('.datepicker').datepicker({
+            var table = $('#table_export');
+            var cont = 0;
+            table.find('tr').each(function(indice){                
+                $(this).find('td').each(function(indice){
+                    if(indice == 5){
+                        var novo = formataFone($(this).text());
+                        $(this).text(novo);
+                    }                    
+                    cont++;
+                });
+            });
+                
+                $('.datepicker').datepicker({
                     format: 'dd/mm/yyyy',                
                     language: 'pt-BR'
                 });

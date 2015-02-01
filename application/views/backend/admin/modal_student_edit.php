@@ -7,22 +7,7 @@ foreach ($edit_data as $row):
     $data_nascimento = explode('-', $row['al_data_nasc']);
     $row['al_data_nasc'] = $data_nascimento[2].'/'.$data_nascimento[1].'/'.$data_nascimento[0];
     
-    $telefone = $row[al_fone];
-
-    $novo = '(';
-    if (strlen($telefone) == 8) {
-        $telefone = '00' . $telefone;
-    }
-
-    for ($i = 0; $i < strlen($telefone); $i++) {
-        $novo .= $telefone[$i];
-        if ($i == 1) {
-            $novo .= ')';
-        }
-        if ($i == 5) {
-            $novo .= '-';
-        }
-    }
+    
     ?>
 <div class="resposta"></div>
     <div class="row">
@@ -221,8 +206,8 @@ foreach ($edit_data as $row):
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label><?php echo get_phrase('phone'); ?></label>
-                                    <input type="text" class="form-control" name="al_fone" onkeypress="mascara(this)"                                           
-                                           value="<?php echo $novo; ?>" placeholder="(99)9999-9999" data-validate="required" 
+                                    <input type="text" class="form-control" name="al_fone"                                           
+                                           value="<?php echo $row['al_fone']; ?>" placeholder="(99)9999-9999"  
                                             data-message-required="<?php echo get_phrase('value_required'); ?>"/>
                                 </div>
                             </div>
@@ -304,7 +289,10 @@ endforeach;
 
 <script type="text/javascript">
    
-    $(function(){      
+    $(function(){    
+        
+        formataCampo();
+        
         
         $('input[name="al_data_nasc"]').datepicker({
             format: 'dd/mm/yyyy',                

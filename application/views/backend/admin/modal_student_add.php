@@ -219,6 +219,9 @@
 
 <script type="text/javascript">
     $(function(){
+        
+        formataCampo();
+        
         var base_url = "<?php echo base_url(); ?>";
         url         = base_url + 'index.php?admin/student/create/';
         var formulario  = $('form[name="formulario_add"]');

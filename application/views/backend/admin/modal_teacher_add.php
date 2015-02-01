@@ -10,7 +10,7 @@
             <div class="panel-body bg">
                 <?php echo form_open('admin/teacher/create/', array('name' => 'formulario_add', 'class' => 'validate', 'enctype' => 'multipart/form-data')); ?>
                 <div class="col-md-2" style="margin-top: 12px">				
-                    <div class="fileinput fileinput-new" data-provides="fileinput"><input type="hidden">
+                    <div class="fileinput-new" data-provides="fileinput"><input type="hidden">
                         <div class="fileinput-new thumbnail" data-trigger="fileinput">
                             <img src="http://placehold.it/200x200" alt="...">
                         </div>

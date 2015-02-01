@@ -74,3 +74,9 @@ function formataDataParaSistema($data){
     $data = explode('-', $data);
     return $data[0].'/'.$data[1].'/'.$data[2];    
 }
+
+
+function formataCpfCepRgFone($campo){
+    $novo = preg_replace('/[^0-9]/', '', $campo);
+    return $novo;
+}

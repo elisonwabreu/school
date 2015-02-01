@@ -119,8 +119,8 @@ class Admin extends CI_Controller
         if ($param1 == 'create') { 
             
             $data['al_bairro']          = $this->input->post('al_bairro');
-            $data['al_celular']         = $this->input->post('al_celular');
-            $data['al_cep']             = $this->input->post('al_cep');
+            $data['al_celular']         = formataCpfCepRgFone($this->input->post('al_celular'));
+            $data['al_cep']             = formataCpfCepRgFone($this->input->post('al_cep'));
             $data['al_cidade']          = $this->input->post('al_cidade');
             $data['al_cod_usuario']     = $this->input->post('al_cod_usuario');
             $data['al_complemento']     = $this->input->post('al_complemento');
@@ -129,11 +129,11 @@ class Admin extends CI_Controller
                 echo '1';
             }*/          
             
-            $data['al_cpf']             = $this->input->post('al_cpf');            
+            $data['al_cpf']             = formataCpfCepRgFone($this->input->post('al_cpf'));           
             $data['al_data_nasc']       = formataDataParaBanco($this->input->post('al_data_nasc'));            
             $data['al_email']           = $this->input->post('al_email');
             $data['al_fator_rh']        = $this->input->post('al_fator_rh');
-            $data['al_fone']            = $this->input->post('al_fone');
+            $data['al_fone']            = formataCpfCepRgFone($this->input->post('al_fone'));
             $data['al_foto']            = $this->input->post('al_foto');
             $data['al_logradouro']      = $this->input->post('al_logradouro');        
             
@@ -141,7 +141,7 @@ class Admin extends CI_Controller
             $data['al_nome_mae']        = $this->input->post('al_nome_mae');
             $data['al_numero']          = $this->input->post('al_numero');
             $data['al_org_emissor']     = $this->input->post('al_org_emissor');
-            $data['al_rg']              = $this->input->post('al_rg');
+            $data['al_rg']              = formataCpfCepRgFone($this->input->post('al_rg'));
             $data['al_sexo']            = $this->input->post('al_sexo');
             $data['al_status']          = $this->input->post('al_status');
             $data['al_uf']              = $this->input->post('al_uf');
@@ -163,28 +163,29 @@ class Admin extends CI_Controller
         }
         if ($param2 == 'do_update') {
             $data['al_bairro']          = $this->input->post('al_bairro');
-            $data['al_celular']         = $this->input->post('al_celular');
-            $data['al_cep']             = $this->input->post('al_cep');
+            $data['al_celular']         = formataCpfCepRgFone($this->input->post('al_celular'));
+            $data['al_cep']             = formataCpfCepRgFone($this->input->post('al_cep'));
             $data['al_cidade']          = $this->input->post('al_cidade');
             $data['al_cod_usuario']     = $this->input->post('al_cod_usuario');
             $data['al_complemento']     = $this->input->post('al_complemento');
-            $data['al_cpf']             = $this->input->post('al_cpf');
+            $cpf = 
+            $data['al_cpf']             = formataCpfCepRgFone($this->input->post('al_cpf'));
             $data['al_data_nasc']       = formataDataParaBanco($this->input->post('al_data_nasc'));            
             
             
             $data['al_email']           = $this->input->post('al_email');
             $data['al_fator_rh']        = $this->input->post('al_fator_rh');
             
-            $fone = preg_replace('/[^0-9]/', '', $this->input->post('al_fone'));
             
-            $data['al_fone']            = $fone;
+            
+            $data['al_fone']            = formataCpfCepRgFone($this->input->post('al_fone'));
             $data['al_foto']            = $this->input->post('al_foto');
             $data['al_logradouro']      = $this->input->post('al_logradouro');
             $data['al_nome']            = $this->input->post('al_nome');
             $data['al_nome_mae']        = $this->input->post('al_nome_mae');
             $data['al_numero']          = $this->input->post('al_numero');
             $data['al_org_emissor']     = $this->input->post('al_org_emissor');
-            $data['al_rg']              = $this->input->post('al_rg');
+            $data['al_rg']              = formataCpfCepRgFone($this->input->post('al_rg'));
             $data['al_sexo']            = $this->input->post('al_sexo');
             $data['al_status']          = $this->input->post('al_status');
             $data['al_uf']              = $this->input->post('al_uf');

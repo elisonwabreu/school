@@ -32,6 +32,7 @@
 	<script src="assets/js/neon-custom.js"></script>
 	<script src="assets/js/neon-demo.js"></script>
         <script src="assets/js/myscript.js"></script>
+        <script src="assets/js/jquery-mask/jquery-mask.js"></script>
 
 
 
