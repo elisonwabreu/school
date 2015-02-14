@@ -291,7 +291,7 @@ endforeach;
    
     $(function(){    
         
-        formataCampo();
+        formataCampoAluno();
         
         
         $('input[name="al_data_nasc"]').datepicker({

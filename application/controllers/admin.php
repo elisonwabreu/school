@@ -13,7 +13,7 @@ if (!defined('BASEPATH'))
 class Admin extends CI_Controller
 {
     
-    
+
 	function __construct()
 	{
             parent::__construct();
@@ -73,23 +73,23 @@ class Admin extends CI_Controller
 		$this->load->view('backend/index', $page_data);
 	}
         
-        function teste_information($class_id){
-            $students = $this->db->get_where('aluno', array('al_codigo_classe' => $class_id))->result_array();
-            echo json_encode( array( 'result' => $students) );
-            //echo json_encode( $students );
-        }
+    function teste_information($class_id){
+        $students = $this->db->get_where('aluno', array('al_codigo_classe' => $class_id))->result_array();
+        echo json_encode( array( 'result' => $students) );
+        //echo json_encode( $students );
+    }
 	
-	function student_marksheet($class_id = '')
-	{
-		if ($this->session->userdata('admin_login') != 1)
+    function student_marksheet($class_id = '')
+    {
+        if ($this->session->userdata('admin_login') != 1)
             redirect('login', 'refresh');
-			
-		$page_data['page_name']  = 'student_marksheet';
-		$page_data['page_title'] 	= get_phrase('student_marksheet'). " - ".get_phrase('class')." : ".
-											$this->crud_model->get_class_name($class_id);
-		$page_data['class_id'] 	= $class_id;
-		$this->load->view('backend/index', $page_data);
-	}
+
+        $page_data['page_name']  = 'student_marksheet';
+        $page_data['page_title'] 	= get_phrase('student_marksheet'). " - ".get_phrase('class')." : ".
+                                                                                $this->crud_model->get_class_name($class_id);
+        $page_data['class_id'] 	= $class_id;
+        $this->load->view('backend/index', $page_data);
+    }
 
     
     function imagem(){
@@ -287,51 +287,79 @@ class Admin extends CI_Controller
     {
         if ($this->session->userdata('admin_login') != 1)
             redirect(base_url(), 'refresh');
+    
         if ($param1 == 'create') {
+            
+            //retorna um array contendo os campos que são not null no banco de dados
+            $array = camposNotNull('professor');
+            //verifica se os campos not null estão preenchidos
+            $validados = validaCamposNotNull($this->input->post(), $array);
+
+            if(!empty($validados)){
+                //print_r($validados);
+                echo json_encode(array("msg" => "validacao", "validacao" => $validados));
+                return;                       
+            }
+            
             $data['pr_nome']        = $this->input->post('pr_nome');
             $data['pr_nome_mae']    = $this->input->post('pr_nome_mae');
-            $data['pr_data_nasc']   = $this->input->post('pr_data_nasc');
-            $data['pr_cpf']         = $this->input->post('pr_cpf');
+            $data['pr_cpf']         = formataCpfCepRgFone($this->input->post('pr_cpf'));           
+            $data['pr_data_nasc']   = formataDataParaBanco($this->input->post('pr_data_nasc'));
             $data['pr_rg']          = $this->input->post('pr_rg');
             $data['pr_org_emissor'] = $this->input->post('pr_org_emissor');
             $data['pr_sexo']        = $this->input->post('pr_sexo');
-            $data['pr_cep']         = $this->input->post('pr_cep');
+            $data['pr_cep']         = formataCpfCepRgFone($this->input->post('pr_cep'));
             $data['pr_logradouro']  = $this->input->post('pr_logradouro');
             $data['pr_numero']      = $this->input->post('pr_numero');
             $data['pr_complemento'] = $this->input->post('pr_complemento');
             $data['pr_bairro']      = $this->input->post('pr_bairro');
-            $fone = preg_replace('/[^0-9]/', '', $this->input->post('pr_fone'));
-            $data['pr_fone']        = $fone;
-            $celular = preg_replace('/[^0-9]/', '', $this->input->post('pr_celular'));
-            $data['pr_celular']     = $celular;
+            $data['pr_fone']        = formataCpfCepRgFone($this->input->post('pr_fone'));            
+            $data['pr_celular']     = formataCpfCepRgFone($this->input->post('pr_fone'));
             $data['pr_email']       = $this->input->post('pr_email');
             $data['pr_formacao']    = $this->input->post('pr_formacao');
             $data['pr_foto']        = $this->input->post('pr_foto');
             $data['pr_cidade']      = $this->input->post('pr_cidade');
-            $data['pr_uf']          = $this->input->post('pr_uf');          
-            $this->db->insert('professor', $data);
-            $teacher_id = mysql_insert_id();
-            move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/teacher_image/' . $teacher_id . '.jpg');
-            $this->email_model->account_opening_email('teacher', $data['email']); //SEND EMAIL ACCOUNT OPENING EMAIL
-            redirect(base_url() . 'index.php?admin/teacher/', 'refresh');
+            $data['pr_uf']          = $this->input->post('pr_uf'); 
+            
+            
+            if($this->db->insert('professor', $data)){
+                $professor_id = mysql_insert_id();
+                move_uploaded_file($_FILES['foto']['tmp_name'], 'uploads/professor_image/' . $professor_id . '.jpg');
+                echo json_encode( array( 'msg' => 'sucesso') );      
+                return;
+            }else{
+                echo json_encode( array( 'msg' => 'erro', 'mensagem' => $this->db->_error_message() . " - " . $this->db->_error_number()) );
+                return;
+            }
+           
         }
         if ($param1 == 'do_update') {
+            //sleep(1000);
+            //retorna um array contendo os campos que são not null no banco de dados
+            $array = camposNotNull('professor');
+            //verifica se os campos not null estão preenchidos
+            $validados = validaCamposNotNull($this->input->post(), $array);
+
+            if(!empty($validados)){
+                //print_r($validados);
+                echo json_encode(array("msg" => "validacao", "validacao" => $validados));
+                return;                       
+            }
+            
            $data['pr_nome']        = $this->input->post('pr_nome');
             $data['pr_nome_mae']    = $this->input->post('pr_nome_mae');
-            $data['pr_data_nasc']   = $this->input->post('pr_data_nasc');
-            $data['pr_cpf']         = $this->input->post('pr_cpf');
+            $data['pr_cpf']         = formataCpfCepRgFone($this->input->post('pr_cpf'));           
+            $data['pr_data_nasc']   = formataDataParaBanco($this->input->post('pr_data_nasc'));
             $data['pr_rg']          = $this->input->post('pr_rg');
             $data['pr_org_emissor'] = $this->input->post('pr_org_emissor');
             $data['pr_sexo']        = $this->input->post('pr_sexo');
-            $data['pr_cep']         = $this->input->post('pr_cep');
+            $data['pr_cep']         = formataCpfCepRgFone($this->input->post('pr_cep'));
             $data['pr_logradouro']  = $this->input->post('pr_logradouro');
             $data['pr_numero']      = $this->input->post('pr_numero');
             $data['pr_complemento'] = $this->input->post('pr_complemento');
             $data['pr_bairro']      = $this->input->post('pr_bairro');
-            $fone = preg_replace('/[^0-9]/', '', $this->input->post('pr_fone'));
-            $data['pr_fone']        = $fone;
-            $celular = preg_replace('/[^0-9]/', '', $this->input->post('pr_celular'));
-            $data['pr_celular']     = $celular;
+            $data['pr_fone']        = formataCpfCepRgFone($this->input->post('pr_fone'));            
+            $data['pr_celular']     = formataCpfCepRgFone($this->input->post('pr_celular'));
             $data['pr_email']       = $this->input->post('pr_email');
             $data['pr_formacao']    = $this->input->post('pr_formacao');
             $data['pr_foto']        = $this->input->post('pr_foto');
@@ -341,9 +369,18 @@ class Admin extends CI_Controller
    
             
             $this->db->where('pr_id', $param2);
-            $this->db->update('professor', $data);
-            move_uploaded_file($_FILES['userfile']['tmp_name'], 'uploads/teacher_image/' . $param2 . '.jpg');
-            redirect(base_url() . 'index.php?admin/teacher/', 'refresh');
+            
+            
+            if($this->db->update('professor', $data)){                
+                move_uploaded_file($_FILES['foto']['tmp_name'], 'uploads/professor_image/' . $param2 . '.jpg');
+                echo json_encode( array( 'msg' => 'sucesso') );                
+            }else{
+                echo json_encode( array( 'msg' => 'erro', 'mensagem' => $this->db->_error_message() . " - " . $this->db->_error_number()) );                
+            }
+            
+            $this->crud_model->clear_cache();           
+            return;
+            //redirect(base_url() . 'index.php?admin/teacher/', 'refresh');
         } else if ($param1 == 'personal_profile') {
             $page_data['personal_profile']   = true;
             $page_data['current_teacher_id'] = $param2;
@@ -351,13 +388,35 @@ class Admin extends CI_Controller
             $page_data['edit_data'] = $this->db->get_where('professor', array(
                 'pr_id' => $param2
             ))->result_array();
+            
         }
         if ($param1 == 'delete') {
             $this->db->where('pr_id', $param2);
             $this->db->delete('professor');
-            redirect(base_url() . 'index.php?admin/teacher/',$param2,  'refresh');
+            
+            $foto = 'uploads/professor_image/'.$param2.'.jpg';
+            if(file_exists($foto)){                
+                unlink($foto);                
+            }
+            redirect(base_url() . 'index.php?admin/professor/','refresh');
+            
+            return;
+           // redirect(base_url() . 'index.php?admin/teacher/',$param2,  'refresh');
+        }if($param1 == 'listar'){
+            
+            $professor	= $this->db->get('professor' )->result_array();
+            
+            echo json_encode($professor);                
         }
-
+        
+        if($param1 == 'imagem'){
+            echo json_encode($this->crud_model->get_image_url('professor',$param2));            
+        }
+        
+    }
+    
+    
+    function professor(){
         $page_data['teacher']   = $this->db->get('professor')->result_array();
 
         $page_data['page_name']  = 'teacher';

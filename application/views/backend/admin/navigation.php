@@ -93,7 +93,7 @@
             
            <!-- TEACHER -->
            <li class="<?php if($page_name == 'teacher' )echo 'active';?> ">
-				<a href="<?php echo base_url();?>index.php?admin/teacher">
+				<a href="<?php echo base_url();?>index.php?admin/professor">
 					<i class="entypo-users"></i>
 					<span><?php echo get_phrase('teacher');?></span>
 				</a>

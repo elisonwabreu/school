@@ -21,7 +21,7 @@ body {
     -moz-opacity: 0.65;
     filter: alpha(opacity = 65);
     background: black;
-    background-image: url("../images/loader-1.gif");
+    background-image: url("../images/preloader.gif");
     background-repeat: no-repeat;
     background-position:50% 50%;
     text-align: center;

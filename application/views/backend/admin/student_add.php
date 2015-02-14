@@ -154,7 +154,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label><?php echo get_phrase('phone'); ?></label>
-                                <input type="text" class="form-control" name="al_fone" value="" placeholder="Fone"  data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>"/>
+                                <input type="text" class="form-control" name="al_fone" value="" placeholder="Fone" />
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -220,7 +220,7 @@
 <script type="text/javascript">
     $(function(){
         
-        formataCampo();
+        formataCampoAluno();
         
         url         = "<?php echo base_url(); ?>" + 'index.php?admin/student/create/';
         var formulario  = $('form[name="formulario_add"]');

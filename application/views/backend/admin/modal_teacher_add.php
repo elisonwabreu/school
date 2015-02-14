@@ -1,3 +1,4 @@
+<div class="loader"></div>
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-primary" data-collapsed="0">
@@ -17,8 +18,8 @@
                         <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 6px;"></div>
                         <div>
                             <span class="col-md-12 btn btn-info btn-file">
-                                <span class="fileinput-new">Select image</span>
-                                <span class="fileinput-exists">Change</span>
+                                <span class="fileinput-new">Selecione imagem</span>
+                                <span class="fileinput-exists">Alterar</span>
                                 <input type="file" name="foto" accept="image/*">
                             </span>
                             <a href="#" class="col-md-12 btn btn-orange fileinput-exists" style="margin-top: 3px"
@@ -58,7 +59,7 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label><?php echo get_phrase('birthday'); ?></label>
-                                    <input type="text" class="form-control datepicker" name="pr_data_nasc" placeholder="dd/mm/aaaa" 
+                                    <input type="text" class="form-control dt_aniversario" name="pr_data_nasc" placeholder="dd/mm/aaaa" 
                                            value="" data-start-view="2" data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>">
                                 </div>
                             </div>	
@@ -111,18 +112,16 @@
                                 <div class="form-group">
                                     <label><?php echo get_phrase('estado'); ?></label>
                                     <select class="form-control" name="pr_uf" data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>">
-                                        <option value=""><?php echo get_phrase('select'); ?></option>
+                                        
+                                        <option value="">--Estados--</option>
+                                        <?php $estados = $this->db->get('estado')->result_array();
+                                            foreach($estados as $estado): ?>
+                                                <option value="<?php echo $estado['est_id'];?>">
+                                                    <?php echo $estado['est_nome'];?>
+                                                </option>
                                         <?php
-                                        $estados = $this->db->get('estado')->result_array();
-                                        foreach ($estados as $estado):
-                                            ?>
-                                            <option value="<?php echo $estado['est_sigla']; ?>"
-                                                        <?php if ($row['al_uf'] == $estado['est_sigla']) echo 'selected'; ?>>
-                                            <?php echo $estado['est_nome']; ?>
-                                            </option>
-                                            <?php
-                                        endforeach;
-                                        ?>
+					endforeach;
+    					?>
                                     </select>								
                                 </div>
                             </div>
@@ -131,12 +130,7 @@
                                 <div class="form-group">
                                     <label><?php echo get_phrase('cidade'); ?></label>
                                     <select class="form-control" name="pr_cidade" data-validate="required" data-message-required="<?php echo get_phrase('value_required'); ?>">
-                                        <option value=""><?php echo get_phrase('select'); ?></option>
-                                        <option value="1">Fortaleza</option>
-                                        <option value="1">Belem</option>
-                                        <option value="1">Caucaia</option>
-                                        <option value="1">Maracanau</option>								
-                                        <option value="1">Sao Paulo</option>								
+                                        <option value=""><?php echo get_phrase('select'); ?></option>                                        								
                                     </select>							
                                 </div>
                             </div>
@@ -184,7 +178,7 @@
                 <div class="row">
                     <div class="col-md-offset-4 col-md-4">
                         <div class="form-group">
-                            <button type="submit" class="col-md-offset-4 btn btn-info"><?php echo get_phrase('add_student'); ?></button>
+                            <button type="submit" class="col-md-offset-4 btn btn-info"><?php echo get_phrase('add_teacher'); ?></button>
                         </div>
                     </div>
 <?php echo form_close(); ?>
@@ -197,47 +191,95 @@
 
 <script type="text/javascript">
     $(function(){
-        formulario = $('form[name="formulario_add"]');
-          url         = "<?php echo base_url(); ?>" + 'index.php?admin/student/create/';
-      
-        formulario.submit(function(){
+        
+        formataCampoProfessor();
+        
+        var base_url = "<?php echo base_url(); ?>" 
+        url         =  base_url + 'index.php?admin/teacher/create/';
+        var formulario  = $('form[name="formulario_add"]');
+        var loader      = $('.loader');
+        
+        function sucesso(retorno){
+            //alert("retornou!" + retorno);
+            var result = JSON.parse( retorno );
 
-            function sucesso(retorno){
-                var result = JSON.parse( retorno );
-                alert("dados salvos com sucessoss" + result);
-                formulario.each (function(){
-                    this.reset();
-                });
-            }
+            if(result.msg == "validacao"){
+                loader.fadeIn(4000);
+                loader.addClass("alert alert-danger").html("Preencha os campos obrigatórios");
+                loader.fadeOut(4000);
+                //função que percorre os campos de preenchimento obrigatório
+                /*$.each(result.validacao, function(i, item){
+                    alert(result.validacao[i]);
+               });*/ 
+            }else if(result.msg == "erro"){
+                alert("Erro ao inserir registro no banco de dados" + result.mensagem );
+            }else if(result.msg == "sucesso"){
+                $('#modal_ajax').modal('hide'); 
+                
+                var novaURL = base_url + 'index.php?admin/professor';
+                $(location).attr('href',novaURL);
+                /*$('#mensagem').delay(2500).fadeIn('slow');
+                $('#mensagem').addClass('alert alert-success').attr('role', 'alert');
+                $('#mensagem').html("Dados inseridos com sucesso");
+                $('#mensagem').delay(1500).fadeOut('slow');*/
             
-            function erro(data){
-                alert("deu merda" + data);
-                //$.loader('close');
-               // $('#modal_ajax').modal('hide');
-            }
-            
-             function carregando(data){                
-                //$.loader({content:"<div>Loading Data form Server ...</div>"});
-            }
-            
-            $.ajax({
+            }                
+        }
+        
+        function erro(data){
+            var result = JSON.parse( data );
+            alert("erro ao tentar inserir registro");
+        }
+        
+        formulario.submit(function(){
+            $(this).ajaxSubmit({
                 type: 'POST',
                 url: url,
-                data: $(this).serialize(),
-                beforeSend: carregando,
-                error: erro,
-                success: sucesso
-                complete: complete
-            });
-
+                success: sucesso,
+                error: erro
+            });                        
             return false;
-        }); 
+        });
+        
+        $('select[name="pr_uf"]').change(function(){
+            var select = $('.estados :selected').text();
+            //alert(select);
+            base = "<?php echo base_url(); ?>";
+            if(select !== "--Estados--"){
+                $('select[name="pr_cidade"]').html("<option value=''>carregando...</option>");                
+                $.ajax({
+                    type: 'POST',
+                     url: base + 'index.php?admin/getCidades/' + $(this).val(),                
+                     success: retorno,
+                     error: function(dado){
+                         alert("erro");
+                     }
+                 }); 
+            }else{
+                $('select[name="pr_cidade"]').html("<option value=''>Selecione</option>");
+            }
+            
+            function retorno(data){
+                var result = JSON.parse( data );  
+                $('select[name="pr_cidade"]').html("<option value=''></option>");
+                var options = "";
+                $.each(result, function(i, item) {
+                    options += '<option value="' + result[i].cid_id + '">' + result[i].cid_nome + '</option>'
+                    //$(select[name="al_cidade"]).
+                    //alert(result[i].cid_nome);
+                })
+                
+                $('select[name="pr_cidade"]').html(options).show();
+            }
+            
+        });
         
         /*converte calendario em portugues*/
-        $('.datepicker').datepicker({
-            format: 'dd/mm/yyyy',                
-            language: 'pt-BR'
-         });
+        
+         $('.dt_aniversario').datepicker({
+                format: 'dd/mm/yyyy',                
+                language: 'pt-BR'
+        });
          
          
     });

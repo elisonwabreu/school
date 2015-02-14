@@ -14,6 +14,7 @@
 	<script src="assets/js/jquery_loader/jquery_loader.js"></script>
         
         <script src="assets/js/jquery_form/jquery_form.js"></script>
+        <script src="assets/js/myscript.js"></script>
 
 	<!--[if lt IE 9]><script src="assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 

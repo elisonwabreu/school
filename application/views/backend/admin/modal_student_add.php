@@ -220,7 +220,7 @@
 <script type="text/javascript">
     $(function(){
         
-        formataCampo();
+        formataCampoAluno();
         
         var base_url = "<?php echo base_url(); ?>";
         url         = base_url + 'index.php?admin/student/create/';
